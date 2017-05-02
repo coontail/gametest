@@ -11,12 +11,10 @@ class Game
   attr_reader :current_character_coordinates
   attr_reader :current_sound
   attr_reader :current_action
-  attr_reader :current_cursor
 
   def initialize
     @current_scene = :scene1 
     @current_action = :go_to
-    @current_cursor = set_cursor
 
     update_scene
   end
@@ -127,7 +125,6 @@ class Game
       update_dialogues
     when :menu
       @current_action = event[:action]
-      @current_cursor = event[:cursor]
     end
   end
 
@@ -162,10 +159,6 @@ class Game
     choices.each_with_index do |(choice_key, choice_data), index|
       build_text(*choices_coordinates[index], choice_data[:text], 17)
     end
-  end
-
-  def set_cursor
-    @current_cursor = game_menus.values.find{ |menu_data| menu_data[:action] == @current_action }[:cursor_path]
   end
 
   def build_text(x, y, text, size)

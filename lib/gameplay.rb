@@ -65,32 +65,27 @@ class Gameplay
     {
       [[860,630], [960, 650]]  => {
         text: "Aller vers",
-        action: :go_to,
-        cursor_path: "./lib/data/images/go_to.png"
+        action: :go_to
       },
 
       [[820, 670], [905,690]] => {
         text: "Regarder",
-        action: :look,
-        cursor_path: "./lib/data/images/eye.png"
+        action: :look
       },
 
       [[930, 670], [990, 690]] => {
         text: "Parler",
-        action: :talk_to,
-        cursor_path: "./lib/data/images/mouth.png"
+        action: :talk_to
       },
 
       [[820, 710], [900, 730]] => {
         text: "Prendre",
-        action: :take,
-        cursor_path: "./lib/data/images/take.png"
+        action: :take
       },
       
       [[930, 710], [1000, 730]] => {
         text: "Donner",
-        action: :give,
-        cursor_path: "./lib/data/images/give.png"
+        action: :give
       }
     }
   end

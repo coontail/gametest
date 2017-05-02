@@ -14,16 +14,11 @@ update do
     game.mouse_x = mouse_x
     game.mouse_y = mouse_y
 
-    img = Image.new(mouse_x, mouse_y, @current_cursor)
-    img.width = 10
-    img.height = 10
-
     event = game.get_event
 
     if event
       game.apply_event(event)
     end
-
   end
 
 end
