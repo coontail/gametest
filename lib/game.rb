@@ -78,7 +78,8 @@ class Game
 
   def update_menu
     game_menus.each do |k,v|
-      build_text(*k.first, v[:text], 22)
+      color = (@current_action == v[:action] ? "black" : "white")
+      build_text(*k.first, v[:text], 22, color)
     end
   end
 
@@ -116,23 +117,39 @@ class Game
   end
 
   def apply_event(event)
-    case event[:type]
-    when :direction
+
+    if event[:type] == :menu
+      @current_action = event[:action]
+      update_menu
+    end
+
+    case [event[:type], @current_action]
+
+    when [:direction, :go_to]
       @current_scene = event[:end_scene]
       update_scene
       play_sound(game_sfx[:clicking])
-    when :character
+
+    when [:character, :talk_to]
       update_dialogues
-    when :menu
-      @current_action = event[:action]
+    
+    when [:character, :look_at]
+      update_description(@current_character)
     end
+  end
+
+  def update_description(object)
+    description_data = game_descriptions[object]
+
+    display_message(description_data[:text])
+    play_sound(description_data[:sound_path])
   end
 
   def update_dialogues
     dialogue_data = game_dialogues[@current_character]
 
     display_character_thumbnail
-    display_dialogue(dialogue_data[:default])
+    display_message(dialogue_data[:default])
 
     if dialogue_data[:default_sound_path]
       play_sound(dialogue_data[:default_sound_path])
@@ -149,7 +166,7 @@ class Game
     sprite.height = 150
   end
 
-  def display_dialogue(text)
+  def display_message(text)
     build_text(175, 615, text, 20)
   end
 
@@ -161,8 +178,8 @@ class Game
     end
   end
 
-  def build_text(x, y, text, size)
-    Text.new(x, y, text, size, "./data/fonts/andersans.ttf", "white")
+  def build_text(x, y, text, size, color="white")
+    Text.new(x, y, text, size, "./data/fonts/andersans.ttf", color)
   end
 
   def play_sound(sound)
@@ -172,6 +189,10 @@ class Game
 
     @current_sound = new_sound
     @current_sound.play
+  end
+
+  def set_highlight
+    current_menu = game_menus.values.find{ |menu_data| menu_data[:action] == @current_action }[:cursor_path]
   end
 
   # def x
@@ -251,6 +272,10 @@ class Game
     xp <= x2 &&
     yp >= y1 &&
     yp <= y2 
+  end
+
+  def game_descriptions
+    @game_descriptions ||= Gameplay.descriptions
   end
 
   def game_menus

@@ -11,6 +11,10 @@ game = Game.new
 update do
 
   on mouse: 'any' do |mouse_x, mouse_y|
+
+    clear # Clear stacked assets
+    game.update_scene # Refresh assets
+
     game.mouse_x = mouse_x
     game.mouse_y = mouse_y
 

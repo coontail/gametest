@@ -41,7 +41,8 @@ class Gameplay
     {
       merchant: {
         image_path: "./data/characters/merchant.png",
-        dialogue: :merchant
+        dialogue: :merchant,
+        description: :merchant
       }
     }
   end
@@ -60,7 +61,6 @@ class Gameplay
     }
   end
 
-
   def self.menus
     {
       [[860,630], [960, 650]]  => {
@@ -70,7 +70,7 @@ class Gameplay
 
       [[820, 670], [905,690]] => {
         text: "Regarder",
-        action: :look
+        action: :look_at
       },
 
       [[930, 670], [990, 690]] => {
@@ -151,6 +151,15 @@ class Gameplay
           }
         }
 
+      }
+    }
+  end
+
+  def self.descriptions
+    {
+      merchant: {
+        text: "C'est un vieux marchand obese avec une veste de riche sur l'epaule",
+        sound_path: "./data/descriptions/merchant.ogg"
       }
     }
   end
