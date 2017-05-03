@@ -1,5 +1,6 @@
 class Game
 
+  attr_accessor :frozen_until
   attr_accessor :mouse_x
   attr_accessor :mouse_y
 
@@ -13,7 +14,8 @@ class Game
   attr_reader :current_action
 
   def initialize
-    @current_scene = :scene1 
+    @current_scene = :scene1
+    @frozen_until = Time.now
     @current_action = :go_to
 
     update_scene
@@ -141,23 +143,28 @@ class Game
   def update_description(object)
     description_data = game_descriptions[object]
 
-    display_message(description_data[:text])
-    play_sound(description_data[:sound_path])
+    if description_data
+      display_message(description_data[:text])
+      play_sound(description_data[:sound_path])
+    end
   end
 
   def update_dialogues
     dialogue_data = game_dialogues[@current_character]
 
-    display_character_thumbnail
-    display_message(dialogue_data[:default])
+    if dialogue_data
+      display_character_thumbnail
+      display_message(dialogue_data[:default])
 
-    if dialogue_data[:default_sound_path]
-      play_sound(dialogue_data[:default_sound_path])
+      if dialogue_data[:default_sound_path]
+        play_sound(dialogue_data[:default_sound_path])
+      end
+    
+      display_choices(dialogue_data[:choices])
+    
     else
       play_sound(game_sfx[:cough])
     end
-
-    display_choices(dialogue_data[:choices])
   end
 
   def display_character_thumbnail
@@ -182,6 +189,10 @@ class Game
     Text.new(x, y, text, size, "./data/fonts/andersans.ttf", color)
   end
 
+  def freeze_game_for(seconds)
+    @frozen_until = Time.now + seconds
+  end
+
   def play_sound(sound)
     new_sound = sound.is_a?(Sound) ? sound : Sound.new(sound)
 
@@ -189,11 +200,14 @@ class Game
 
     @current_sound = new_sound
     @current_sound.play
+
+    sound_duration = TagLib::FileRef.open(@current_sound.path){ |fileref| fileref.audio_properties.length }
+    freeze_game_for(sound_duration)
   end
 
-  def set_highlight
-    current_menu = game_menus.values.find{ |menu_data| menu_data[:action] == @current_action }[:cursor_path]
-  end
+  # def set_highlight
+  #   current_menu = game_menus.values.find{ |menu_data| menu_data[:action] == @current_action }[:cursor_path]
+  # end
 
   # def x
   #   {
@@ -262,10 +276,6 @@ class Game
     when :right then [[720, 0], [800, 600]]
     end
   end
-
-  # def get_aspect_ratio_size(original_width, original_height, goal_width, goal_height)
-  #   ratio = (original_width.to_f / original_height.to_f) 
-  # end
 
   def is_in_rectangle?(x1, y1, x2, y2, xp, yp)
     xp >= x1 &&

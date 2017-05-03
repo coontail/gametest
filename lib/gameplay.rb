@@ -20,6 +20,7 @@ class Gameplay
 
       scene3: {
         image_path: "./data/images/d",
+        character: :merchant2,
         events: {
           left: { end_scene: :scene1 },
           right: { end_scene: :scene4 }
@@ -43,6 +44,10 @@ class Gameplay
         image_path: "./data/characters/merchant.png",
         dialogue: :merchant,
         description: :merchant
+      },
+
+      merchant2: {
+        image_path: "./data/characters/merchant2.png"        
       }
     }
   end

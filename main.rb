@@ -1,5 +1,7 @@
 require "ruby2d"
 require "fastimage"
+require "taglib"
+
 require "./lib/game.rb"
 require "./lib/gameplay.rb"
 
@@ -12,16 +14,20 @@ update do
 
   on mouse: 'any' do |mouse_x, mouse_y|
 
-    clear # Clear stacked assets
-    game.update_scene # Refresh assets
+    if Time.now >= game.frozen_until
 
-    game.mouse_x = mouse_x
-    game.mouse_y = mouse_y
+      clear # Clear stacked assets
+      game.update_scene # Refresh assets
 
-    event = game.get_event
+      game.mouse_x = mouse_x
+      game.mouse_y = mouse_y
 
-    if event
-      game.apply_event(event)
+      event = game.get_event
+
+      if event
+        game.apply_event(event)
+      end
+
     end
   end
 

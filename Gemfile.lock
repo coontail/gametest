@@ -16,6 +16,7 @@ GEM
     sprockets (3.7.1)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
+    taglib-ruby (0.7.1)
     tilt (2.0.7)
 
 PLATFORMS
@@ -24,6 +25,7 @@ PLATFORMS
 DEPENDENCIES
   fastimage
   ruby2d
+  taglib-ruby
 
 BUNDLED WITH
    1.13.1
