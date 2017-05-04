@@ -1,8 +1,9 @@
 class Game
 
-  attr_accessor :frozen_until
   attr_accessor :mouse_x
   attr_accessor :mouse_y
+  attr_accessor :frozen_until
+  attr_accessor :current_sentences
 
   attr_reader :current_scene
   attr_reader :current_scene_data
@@ -12,11 +13,14 @@ class Game
   attr_reader :current_character_coordinates
   attr_reader :current_sound
   attr_reader :current_action
+  attr_reader :current_dialogue
+  attr_reader :current_dialogue_data
 
   def initialize
-    @current_scene = :scene1
+    @current_scene = :scene4
     @frozen_until = Time.now
     @current_action = :go_to
+    @current_sentences = []
 
     update_scene
   end
@@ -26,7 +30,19 @@ class Game
 
     update_music
     update_image
+    update_characters
+    update_background
     update_menu
+  end
+
+  def update_sentences
+    sentence_data = @current_sentences[0]
+
+    display_thumbnail_for(sentence_data[:source])
+    display_message(sentence_data[:text])
+    play_sound(sentence_data[:sound_path])
+
+    @current_sentences.shift
   end
 
   def update_music
@@ -44,14 +60,6 @@ class Game
     img = Image.new(0, 0, @current_scene_data[:image_path])
     img.width = 800
     img.height = 600
-
-    # current_scene_data[:events].keys.each do |area|
-    # coordinates = area.is_a?(Symbol) ? area_to_coordinates(area) : area
-    #   Rectangle.new(*coordinates.flatten, "red")
-    # end
-
-    update_characters
-    update_background
   end
 
   def update_characters
@@ -86,7 +94,10 @@ class Game
   end
 
   def get_event
-    get_menu_event || get_map_event || get_character_event
+    get_menu_event || 
+    get_choice_event ||
+    get_map_event || 
+    get_character_event
   end
 
   def get_map_event
@@ -112,6 +123,16 @@ class Game
     end
   end
 
+  def get_choice_event
+    choice_event = choices_coordinates.find do |coordinates, choice|
+      is_in_rectangle?(*coordinates.flatten, @mouse_x, @mouse_y)
+    end    
+
+    if choice_event
+      { type: :choice }.merge(choice_event.last)
+    end
+  end
+
   def get_character_event
     if @current_character && is_in_rectangle?(*@current_character_coordinates.flatten, @mouse_x, @mouse_y)
       { type: :character }.merge(@current_character_data)
@@ -123,6 +144,10 @@ class Game
     if event[:type] == :menu
       @current_action = event[:action]
       update_menu
+    end
+
+    if event[:type] == :choice
+      apply_choice(event[:choice])
     end
 
     case [event[:type], @current_action]
@@ -140,35 +165,55 @@ class Game
     end
   end
 
+  def apply_choice(choice)
+    choice_data = @current_dialogue_data[:choices][choice]
+
+    display_message(choice_data[:choice_text])
+    display_thumbnail_for(:self)
+    play_sound(choice_data[:choice_sound_path])
+
+    @current_sentences = choice_data[:sentences].dup
+  end
+
   def update_description(object)
     description_data = game_descriptions[object]
 
     if description_data
       display_message(description_data[:text])
+      display_thumbnail_for(:self)
       play_sound(description_data[:sound_path])
     end
   end
 
   def update_dialogues
-    dialogue_data = game_dialogues[@current_character]
+    if @current_character
+      @current_dialogue = @current_character
+      @current_dialogue_data = game_dialogues[@current_dialogue]
 
-    if dialogue_data
-      display_character_thumbnail
-      display_message(dialogue_data[:default])
+      if @current_dialogue_data
+        display_thumbnail_for(:character)
+        display_message(@current_dialogue_data[:default])
 
-      if dialogue_data[:default_sound_path]
-        play_sound(dialogue_data[:default_sound_path])
+        if @current_dialogue_data[:default_sound_path]
+          play_sound(@current_dialogue_data[:default_sound_path])
+        end
+      
+        display_choices(@current_dialogue_data[:choices])
+      
+      else
+        play_sound(game_sfx[:cough])
       end
-    
-      display_choices(dialogue_data[:choices])
-    
-    else
-      play_sound(game_sfx[:cough])
     end
   end
 
-  def display_character_thumbnail
-    sprite = Image.new(16, 600, @current_character_data[:image_path])
+  def display_thumbnail_for(source)
+    thumbnail = 
+      case source
+      when :character then @current_character_data[:image_path]
+      when :self then game_characters[:player][:image_path]
+      end
+    
+    sprite = Image.new(16, 600, thumbnail)
     sprite.width = 130
     sprite.height = 150
   end
@@ -178,10 +223,8 @@ class Game
   end
 
   def display_choices(choices)
-    choices_coordinates = [[175, 665], [175, 690], [175, 715]]
-    
     choices.each_with_index do |(choice_key, choice_data), index|
-      build_text(*choices_coordinates[index], choice_data[:text], 17)
+      build_text(*choices_coordinates.keys[index][0], choice_data[:choice_text], 17)
     end
   end
 
@@ -201,74 +244,9 @@ class Game
     @current_sound = new_sound
     @current_sound.play
 
-    sound_duration = TagLib::FileRef.open(@current_sound.path){ |fileref| fileref.audio_properties.length }
+    sound_duration = TagLib::FileRef.open(@current_sound.path){ |fileref| fileref.audio_properties.length } * 1.5
     freeze_game_for(sound_duration)
   end
-
-  # def set_highlight
-  #   current_menu = game_menus.values.find{ |menu_data| menu_data[:action] == @current_action }[:cursor_path]
-  # end
-
-  # def x
-  #   {
-  #     merchant: {
-  #       default: "Salut l'étranger, que fais-tu ici ?",
-  #       choices: {
-  #         choice_1: {
-  #           text: "Je ne sais pas trop, pour être honnête...",
-
-  #           sentences: [
-  #             {
-  #               text: "J'ai plein de marchandises à te proposer !",
-  #               sound: "./data/dialogues/dial_2.ogg"
-  #             },
-
-  #             {
-  #               text: "Ah oui ? Quel type de marchandises ?",
-  #               source: "self"
-  #             },
-
-  #             {
-  #               text: "Petit curieux va, ça ne te regarde pas"
-  #             },
-
-  #             { 
-  #               text: "Allez, file, du balai !"
-  #             },
-
-  #             {
-  #               text: "Pas très aimable...",
-  #               source: "self"
-  #             }
-  #           ]
-  #         },
-
-  #         choice_2: {
-  #           text: "En quoi ça vous regarde ?",
-
-  #           sentences: [
-  #             {
-  #               text: "Tout doux mec, je veux pas d'ennuis moi",
-  #               source: "character"
-  #             }
-  #           ]
-  #         },
-
-  #         choice_3: {
-  #           text: "Au revoir",
-
-  #           sentences: [
-  #             {
-  #               text: "Salut l'ami !",
-  #               source: "character"
-  #             }
-  #           ]
-  #         }
-  #       }
-
-  #     }
-  #   }
-  # end
 
   def area_to_coordinates(area)
     case area
@@ -282,6 +260,10 @@ class Game
     xp <= x2 &&
     yp >= y1 &&
     yp <= y2 
+  end
+
+  def choices_coordinates
+    @choices_coordinates ||= Gameplay.choices
   end
 
   def game_descriptions

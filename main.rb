@@ -1,6 +1,7 @@
 require "ruby2d"
 require "fastimage"
 require "taglib"
+require "byebug"
 
 require "./lib/game.rb"
 require "./lib/gameplay.rb"
@@ -12,8 +13,14 @@ game = Game.new
 
 update do
 
-  on mouse: 'any' do |mouse_x, mouse_y|
+  if Time.now >= game.frozen_until && game.current_sentences.any?
+    game.update_scene
+    game.update_sentences
+  end
 
+  # puts "#{game.current_sentences} #{game.current_character} #{game.current_dialogue} #{game.current_dialogue_data}"
+
+  on mouse: 'any' do |mouse_x, mouse_y|
     if Time.now >= game.frozen_until
 
       clear # Clear stacked assets
