@@ -17,7 +17,7 @@ class Game
   attr_reader :current_dialogue_data
 
   def initialize
-    @current_scene = :scene4
+    @current_scene = :scene_1
     @frozen_until = Time.now
     @current_action = :go_to
     @current_sentences = []
@@ -31,6 +31,7 @@ class Game
     update_music
     update_image
     update_characters
+    update_direction_hints
     update_background
     update_menu
   end
@@ -83,13 +84,32 @@ class Game
   end
   
   def update_background
-    Image.new(0,0, "./data/images/background.png")
+    Image.new(0,0, "./data/images/assets/background.png")
   end
 
   def update_menu
     game_menus.each do |k,v|
       color = (@current_action == v[:action] ? "black" : "white")
       build_text(*k.first, v[:text], 22, color)
+    end
+  end
+
+  def update_direction_hints
+    map_events = @current_scene_data[:events]
+
+    map_events.keys.each do |direction|
+
+      # sign = case direction
+      # when :left then "<"
+      # when :right then ">"
+      # when :forward then "^"
+      # when :back then "v"
+      # end
+
+      # build_text(*direction_hint_coordinates_for(direction)[0], sign, 25, "red")
+      img = Image.new(*direction_hint_coordinates_for(direction)[0], game_sprites[direction][:image_path])
+      img.width = 32
+      img.height = 32
     end
   end
 
@@ -103,8 +123,8 @@ class Game
   def get_map_event
     map_events = @current_scene_data[:events]
     
-    map_event = map_events.find do |area, event|
-      coordinates = area.is_a?(Symbol) ? area_to_coordinates(area) : area
+    map_event = map_events.find do |direction, event|
+      coordinates = direction.is_a?(Symbol) ? direction_to_coordinates(direction) : direction
       is_in_rectangle?(*coordinates.flatten, @mouse_x, @mouse_y)
     end
 
@@ -206,22 +226,6 @@ class Game
     end
   end
 
-  def display_thumbnail_for(source)
-    thumbnail = 
-      case source
-      when :character then @current_character_data[:image_path]
-      when :self then game_characters[:player][:image_path]
-      end
-    
-    sprite = Image.new(16, 600, thumbnail)
-    sprite.width = 130
-    sprite.height = 150
-  end
-
-  def display_message(text)
-    build_text(175, 615, text, 20)
-  end
-
   def display_choices(choices)
     choices.each_with_index do |(choice_key, choice_data), index|
       build_text(*choices_coordinates.keys[index][0], choice_data[:choice_text], 17)
@@ -232,8 +236,24 @@ class Game
     Text.new(x, y, text, size, "./data/fonts/andersans.ttf", color)
   end
 
+  def display_message(text)
+    build_text(175, 615, text, 20)
+  end
+
   def freeze_game_for(seconds)
     @frozen_until = Time.now + seconds
+  end
+
+  def display_thumbnail_for(source)
+    thumbnail = 
+      case source
+      when :character then @current_character_data[:image_path]
+      when :self then game_characters[:player][:image_path]
+      end
+    
+    sprite = Image.new(16, 600, thumbnail)
+    sprite.width = 130
+    sprite.height = 150
   end
 
   def play_sound(sound)
@@ -248,10 +268,23 @@ class Game
     freeze_game_for(sound_duration)
   end
 
-  def area_to_coordinates(area)
-    case area
+  def direction_to_coordinates(direction)
+    case direction
     when :left then [[0, 0], [80, 600]]
     when :right then [[720, 0], [800, 600]]
+    when :forward then [[165, 165], [600, 400]]
+    # when :up then [[135, 0], [650, 100]]
+    when :back then [[160, 485], [650, 580]]
+    end
+  end
+
+  def direction_hint_coordinates_for(direction)
+    case direction
+    when :left then [[10, 265], [70, 305]]
+    when :right then [[730, 265], [790, 305]]
+    when :forward then [[375, 270], [420, 305]]
+    # when :up then [[135, 0], [650, 100]]
+    when :back then [[375, 530], [420, 560]]
     end
   end
 
@@ -292,6 +325,10 @@ class Game
 
   def game_music
     @game_music ||= Gameplay.musics
+  end
+
+  def game_sprites
+    @game_sprites ||= Gameplay.sprites
   end
 
 end

@@ -2,39 +2,48 @@ class Gameplay
 
   def self.map
     {
-      scene1: {
-        image_path: "./data/images/h",
+      scene_1: {
+        image_path: "./data/images/scenes/1.png",
         events: {
-          left: { end_scene: :scene2 },
-          right: { end_scene: :scene3 }
+          left: { end_scene: :scene_3 },
+          right: { end_scene: :scene_2 }
         }   
       },
 
-      scene2: {
-        image_path: "./data/images/g",
-        events: {
-          left:  { end_scene: :scene4 },
-          right:  { end_scene: :scene1 }
-        }   
-      },
-
-      scene3: {
-        image_path: "./data/images/d",
-        character: :merchant2,
-        events: {
-          left: { end_scene: :scene1 },
-          right: { end_scene: :scene4 }
-        }
-      },
-
-      scene4: {
-        image_path: "./data/images/b",
+      scene_2: {
+        image_path: "./data/images/scenes/2.png",
         character: :merchant,
         events: {
-          left: { end_scene: :scene3 },
-          right: { end_scene: :scene2 }
+          left:  { end_scene: :scene_1 },
+          right:  { end_scene: :scene_3 }
+        }   
+      },
+
+      scene_3: {
+        image_path: "./data/images/scenes/3.png",
+        events: {
+          left: { end_scene: :scene_2 },
+          right: { end_scene: :scene_1 },
+          forward: { end_scene: :scene_4 }
+        }
+      },
+
+      scene_4: {
+        image_path: "./data/images/scenes/4.png",
+        events: {
+          back: { end_scene: :scene_3 },
+          forward: { end_scene: :scene_5 }
+        }
+      },
+
+      scene_5: {
+        image_path: "./data/images/scenes/5.png",
+        character: :merchant_2,
+        events: {
+          back: { end_scene: :scene_4 }
         }
       }
+
     }
   end
 
@@ -46,7 +55,7 @@ class Gameplay
         description: :merchant
       },
 
-      merchant2: {
+      merchant_2: {
         image_path: "./data/characters/merchant2.png"        
       },
 
@@ -196,6 +205,15 @@ class Gameplay
       [[175, 715], [780, 740]] => {
         choice: :choice_3
       }
+    }
+  end
+
+  def self.sprites
+    {
+      left: { image_path: "./data/images/sprites/left_arrow.png" },
+      right: { image_path: "./data/images/sprites/right_arrow.png" },
+      forward: { image_path: "./data/images/sprites/up_arrow.png" },
+      back: { image_path: "./data/images/sprites/down_arrow.png" }
     }
   end
 
