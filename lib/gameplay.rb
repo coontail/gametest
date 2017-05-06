@@ -108,78 +108,109 @@ class Gameplay
     }
   end
 
+  def self.choices
+    {
+      merchant_choices_1: {            
+        choice_1: { 
+          choice_text: "Je ne sais pas trop, pour etre honnete...",
+          choice_sound_path: "./data/dialogues/merchant/choices/1_1.ogg",
+
+          sentences: [
+            :merchant_sentence_1,
+            :merchant_sentence_2,
+            :merchant_sentence_3,
+            :merchant_sentence_4,
+            :merchant_sentence_5
+          ]
+        },
+
+        choice_2: {
+          choice_text: "En quoi ca vous regarde ?",
+          choice_sound_path: "./data/dialogues/merchant/choices/1_2.ogg",            
+
+          sentences: [
+            :merchant_sentence_6
+          ]
+        }
+
+        # ,
+
+        # choice_3: {
+        #   choice_text: "Au revoir",
+        #   choice_sound_path: "./data/dialogues/merchant/choices/1_3.ogg",
+
+        #   sentences: [
+        #     :merchant_sentence_7
+        #   ]
+        # }
+      }
+    }
+  end
+
+  def self.sentences
+    {
+      merchant_sentence_1: {
+        text: "J'ai plein de marchandises a te proposer !",
+        sound_path: "./data/dialogues/merchant/sentences/1.ogg",
+        source: :character
+      },
+
+      merchant_sentence_2: {
+        text: "Ah oui ? Quel type de marchandises ?",
+        sound_path: "./data/dialogues/merchant/sentences/2.ogg",
+        source: :self
+      },
+
+      merchant_sentence_3: {
+        text: "Petit curieux va, ca ne te regarde pas",
+        sound_path: "./data/dialogues/merchant/sentences/3.ogg",
+        source: :character
+      },
+
+      merchant_sentence_4: {
+        text: "Allez, file, du balai !",
+        sound_path: "./data/dialogues/merchant/sentences/4.ogg",
+        source: :character
+      },
+
+      merchant_sentence_5: {
+        text: "Pas tres aimable...",
+        sound_path: "./data/dialogues/merchant/sentences/5.ogg",
+        source: :self
+      },
+
+      merchant_sentence_6: {
+        text: "Tout doux mec, je veux pas d'ennuis moi",
+        sound_path: "./data/dialogues/merchant/sentences/6.ogg",
+        source: :character
+      },
+
+      merchant_sentence_7: {
+        text: "Salut l'ami !",
+        sound_path: "./data/dialogues/merchant/sentences/7.ogg",
+        source: :character
+      }
+
+    }
+  end
+
   def self.dialogues
     {
       merchant: {
-        default: "Salut l'etranger, que fais-tu ici ?",
-        default_sound_path: "./data/dialogues/merchant_default.ogg",
-        choices: {
-          
-          choice_1: { 
-            choice_text: "Je ne sais pas trop, pour etre honnete...",
-            choice_sound_path: "./data/dialogues/merchant_choice_1.ogg",
-
-            sentences: [
-              {
-                text: "J'ai plein de marchandises a te proposer !",
-                sound_path: "./data/dialogues/merchant_choice_1_1.ogg",
-                source: :character
-              },
-
-              {
-                text: "Ah oui ? Quel type de marchandises ?",
-                sound_path: "./data/dialogues/merchant_choice_1_2.ogg",
-                source: :self
-              },
-
-              {
-                text: "Petit curieux va, ca ne te regarde pas",
-                sound_path: "./data/dialogues/merchant_choice_1_3.ogg",
-                source: :character
-              },
-
-              { 
-                text: "Allez, file, du balai !",
-                sound_path: "./data/dialogues/merchant_choice_1_4.ogg",
-                source: :character
-              },
-
-              {
-                text: "Pas tres aimable...",
-                sound_path: "./data/dialogues/merchant_choice_1_5.ogg",
-                source: :self
-              }
-            ]
-          },
-
-          choice_2: {
-            choice_text: "En quoi ca vous regarde ?",
-            choice_sound_path: "./data/dialogues/merchant_choice_2.ogg",            
-
-            sentences: [
-              {
-                text: "Tout doux mec, je veux pas d'ennuis moi",
-                sound_path: "./data/dialogues/merchant_choice_2_1.ogg",
-                source: :character
-              }
-            ]
-          },
-
-          choice_3: {
-            choice_text: "Au revoir",
-            choice_sound_path: "./data/dialogues/merchant_choice_3.ogg",
-
-            sentences: [
-              {
-                text: "Salut l'ami !",
-                sound_path: "./data/dialogues/merchant_choice_3_1.ogg",
-                source: :character
-              }
-            ]
-          }
-        }
-
+        default_text: "Salut l'etranger, que fais-tu ici ?",
+        default_sound_path: "./data/dialogues/merchant/default.ogg",
+        choices: :merchant_choices_1
       }
+
+      # merchant_2: {
+      #   default_text: "Bijour",
+      #   default_sound_path: "./data/dialogues/merchant_2/default.ogg"
+      #   sentences: [
+      #     {
+
+      #     }
+      #   ]
+      # }
     }
   end
 
@@ -192,7 +223,7 @@ class Gameplay
     }
   end
 
-  def self.choices
+  def self.choices_coordinates
     {
       [[175, 665], [780, 685]] => {
         choice: :choice_1

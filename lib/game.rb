@@ -36,16 +36,6 @@ class Game
     update_menu
   end
 
-  def update_sentences
-    sentence_data = @current_sentences[0]
-
-    display_thumbnail_for(sentence_data[:source])
-    display_message(sentence_data[:text])
-    play_sound(sentence_data[:sound_path])
-
-    @current_sentences.shift
-  end
-
   def update_music
     new_music = game_map[@current_scene][:music] || :main
 
@@ -144,7 +134,14 @@ class Game
   end
 
   def get_choice_event
-    choice_event = choices_coordinates.find do |coordinates, choice|
+    return false unless @current_dialogue_data
+    
+    choices_key = @current_dialogue_data[:choices]
+    choices_keys = game_choices[choices_key].keys
+
+    available_choices_coordinates = choices_coordinates.select{ |coordinates, data| choices_keys.include?(data[:choice]) }
+    
+    choice_event = available_choices_coordinates.find do |coordinates, choice|
       is_in_rectangle?(*coordinates.flatten, @mouse_x, @mouse_y)
     end    
 
@@ -186,7 +183,8 @@ class Game
   end
 
   def apply_choice(choice)
-    choice_data = @current_dialogue_data[:choices][choice]
+    choices_key = @current_dialogue_data[:choices]
+    choice_data = game_choices[choices_key][choice]
 
     display_message(choice_data[:choice_text])
     display_thumbnail_for(:self)
@@ -205,6 +203,17 @@ class Game
     end
   end
 
+  def update_sentences
+    sentence_key = @current_sentences[0]
+    sentence_data = game_sentences[sentence_key]
+
+    display_thumbnail_for(sentence_data[:source])
+    display_message(sentence_data[:text])
+    play_sound(sentence_data[:sound_path])
+
+    @current_sentences.shift
+  end
+
   def update_dialogues
     if @current_character
       @current_dialogue = @current_character
@@ -212,13 +221,14 @@ class Game
 
       if @current_dialogue_data
         display_thumbnail_for(:character)
-        display_message(@current_dialogue_data[:default])
+        display_message(@current_dialogue_data[:default_text])
 
         if @current_dialogue_data[:default_sound_path]
           play_sound(@current_dialogue_data[:default_sound_path])
         end
       
-        display_choices(@current_dialogue_data[:choices])
+        choices = game_choices[@current_dialogue_data[:choices]]
+        display_choices(choices)
       
       else
         play_sound(game_sfx[:cough])
@@ -296,7 +306,15 @@ class Game
   end
 
   def choices_coordinates
-    @choices_coordinates ||= Gameplay.choices
+    @choices_coordinates ||= Gameplay.choices_coordinates
+  end
+
+  def game_choices
+    @game_choices ||= Gameplay.choices
+  end
+
+  def game_sentences
+    @game_sentences ||= Gameplay.sentences
   end
 
   def game_descriptions
