@@ -131,18 +131,16 @@ class Gameplay
           sentences: [
             :merchant_sentence_6
           ]
+        },
+
+        choice_3: {
+          choice_text: "Au revoir",
+          choice_sound_path: "./data/dialogues/merchant/choices/1_3.ogg",
+
+          sentences: [
+            :merchant_sentence_7
+          ]
         }
-
-        # ,
-
-        # choice_3: {
-        #   choice_text: "Au revoir",
-        #   choice_sound_path: "./data/dialogues/merchant/choices/1_3.ogg",
-
-        #   sentences: [
-        #     :merchant_sentence_7
-        #   ]
-        # }
       }
     }
   end
@@ -200,17 +198,16 @@ class Gameplay
         default_text: "Salut l'etranger, que fais-tu ici ?",
         default_sound_path: "./data/dialogues/merchant/default.ogg",
         choices: :merchant_choices_1
+      },
+
+      merchant_2: {
+        default_text: "Salut l'etranger, que fais-tu ici ?",
+        default_sound_path: "./data/dialogues/merchant/default.ogg",
+        sentences: [
+          :merchant_sentence_1,
+          :merchant_sentence_4
+        ]
       }
-
-      # merchant_2: {
-      #   default_text: "Bijour",
-      #   default_sound_path: "./data/dialogues/merchant_2/default.ogg"
-      #   sentences: [
-      #     {
-
-      #     }
-      #   ]
-      # }
     }
   end
 

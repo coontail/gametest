@@ -134,19 +134,21 @@ class Game
   end
 
   def get_choice_event
-    return false unless @current_dialogue_data
+    if @current_dialogue_data && @current_dialogue_data[:choices]
     
-    choices_key = @current_dialogue_data[:choices]
-    choices_keys = game_choices[choices_key].keys
+      choices_key = @current_dialogue_data[:choices]
+      choices_keys = game_choices[choices_key].keys
 
-    available_choices_coordinates = choices_coordinates.select{ |coordinates, data| choices_keys.include?(data[:choice]) }
-    
-    choice_event = available_choices_coordinates.find do |coordinates, choice|
-      is_in_rectangle?(*coordinates.flatten, @mouse_x, @mouse_y)
-    end    
+      available_choices_coordinates = choices_coordinates.select{ |coordinates, data| choices_keys.include?(data[:choice]) }
+      
+      choice_event = available_choices_coordinates.find do |coordinates, choice|
+        is_in_rectangle?(*coordinates.flatten, @mouse_x, @mouse_y)
+      end    
 
-    if choice_event
-      { type: :choice }.merge(choice_event.last)
+      if choice_event
+        { type: :choice }.merge(choice_event.last)
+      end
+      
     end
   end
 
@@ -207,9 +209,13 @@ class Game
     sentence_key = @current_sentences[0]
     sentence_data = game_sentences[sentence_key]
 
-    display_thumbnail_for(sentence_data[:source])
-    display_message(sentence_data[:text])
-    play_sound(sentence_data[:sound_path])
+    if sentence_data[:choice]
+      #todo
+    else
+      display_thumbnail_for(sentence_data[:source])
+      display_message(sentence_data[:text])
+      play_sound(sentence_data[:sound_path])
+    end
 
     @current_sentences.shift
   end
@@ -227,8 +233,12 @@ class Game
           play_sound(@current_dialogue_data[:default_sound_path])
         end
       
-        choices = game_choices[@current_dialogue_data[:choices]]
-        display_choices(choices)
+        if @current_dialogue_data[:choices]
+          choices = game_choices[@current_dialogue_data[:choices]]
+          display_choices(choices)
+        elsif @current_dialogue_data[:sentences]
+          @current_sentences = @current_dialogue_data[:sentences]
+        end
       
       else
         play_sound(game_sfx[:cough])
