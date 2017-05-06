@@ -110,7 +110,10 @@ class Gameplay
 
   def self.choices
     {
-      merchant_choices_1: {            
+      merchant_choices_1: {   
+        default_text: "Salut l'etranger, que fais-tu ici ?",
+        default_sound_path: "./data/dialogues/merchant/default.ogg",
+
         choice_1: { 
           choice_text: "Je ne sais pas trop, pour etre honnete...",
           choice_sound_path: "./data/dialogues/merchant/choices/1_1.ogg",
@@ -187,6 +190,10 @@ class Gameplay
         text: "Salut l'ami !",
         sound_path: "./data/dialogues/merchant/sentences/7.ogg",
         source: :character
+      },
+
+      merchant_sentence_8: {
+        choices: :merchant_choices_1
       }
 
     }
@@ -195,17 +202,15 @@ class Gameplay
   def self.dialogues
     {
       merchant: {
-        default_text: "Salut l'etranger, que fais-tu ici ?",
-        default_sound_path: "./data/dialogues/merchant/default.ogg",
         choices: :merchant_choices_1
       },
 
       merchant_2: {
-        default_text: "Salut l'etranger, que fais-tu ici ?",
-        default_sound_path: "./data/dialogues/merchant/default.ogg",
         sentences: [
-          :merchant_sentence_1,
-          :merchant_sentence_4
+          :merchant_sentence_4,
+          :merchant_sentence_5,
+          :merchant_sentence_7,
+          :merchant_sentence_8
         ]
       }
     }

@@ -134,13 +134,7 @@ class Game
   end
 
   def get_choice_event
-    if @current_dialogue_data && @current_dialogue_data[:choices]
-    
-      choices_key = @current_dialogue_data[:choices]
-      choices_keys = game_choices[choices_key].keys
-
-      available_choices_coordinates = choices_coordinates.select{ |coordinates, data| choices_keys.include?(data[:choice]) }
-      
+    if @current_dialogue_data
       choice_event = available_choices_coordinates.find do |coordinates, choice|
         is_in_rectangle?(*coordinates.flatten, @mouse_x, @mouse_y)
       end    
@@ -148,7 +142,19 @@ class Game
       if choice_event
         { type: :choice }.merge(choice_event.last)
       end
-      
+
+    end
+  end
+
+  def available_choices_coordinates
+    if @current_dialogue_data[:choices]
+        
+      choices_key = @current_dialogue_data[:choices]
+      choices_keys = game_choices[choices_key].keys
+
+      choices_coordinates.select{ |coordinates, data| choices_keys.include?(data[:choice]) }
+    else
+      {}
     end
   end
 
@@ -209,8 +215,9 @@ class Game
     sentence_key = @current_sentences[0]
     sentence_data = game_sentences[sentence_key]
 
-    if sentence_data[:choice]
-      #todo
+    if sentence_data[:choices]
+      @current_dialogue_data = sentence_data ## ajouté en dernier, bugge encore
+      update_choices
     else
       display_thumbnail_for(sentence_data[:source])
       display_message(sentence_data[:text])
@@ -226,18 +233,11 @@ class Game
       @current_dialogue_data = game_dialogues[@current_dialogue]
 
       if @current_dialogue_data
-        display_thumbnail_for(:character)
-        display_message(@current_dialogue_data[:default_text])
-
-        if @current_dialogue_data[:default_sound_path]
-          play_sound(@current_dialogue_data[:default_sound_path])
-        end
-      
+  
         if @current_dialogue_data[:choices]
-          choices = game_choices[@current_dialogue_data[:choices]]
-          display_choices(choices)
+          update_choices
         elsif @current_dialogue_data[:sentences]
-          @current_sentences = @current_dialogue_data[:sentences]
+          @current_sentences = @current_dialogue_data[:sentences].dup
         end
       
       else
@@ -246,9 +246,23 @@ class Game
     end
   end
 
+  def update_choices
+    choices = game_choices[@current_dialogue_data[:choices]]
+
+    display_thumbnail_for(:character)
+    display_message(choices[:default_text])
+
+    if choices[:default_sound_path]
+      play_sound(choices[:default_sound_path])
+    end
+  
+    displayable_choices = choices.reject{ |key| [:default_sound_path, :default_text].include?(key)}
+    display_choices(displayable_choices)
+  end
+
   def display_choices(choices)
     choices.each_with_index do |(choice_key, choice_data), index|
-      build_text(*choices_coordinates.keys[index][0], choice_data[:choice_text], 17)
+      build_text(*available_choices_coordinates.keys[index][0], choice_data[:choice_text], 17)
     end
   end
 

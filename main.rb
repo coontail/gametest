@@ -15,6 +15,12 @@ game = Game.new
 
 update do
 
+  # path = "./data/images/sprites/up_arrow.png"
+  # @cursor.remove if @cursor
+  # x = get(:mouse_x)
+  # y = get(:mouse_y)
+  # @cursor = Image.new(x, y, path)
+
   if Time.now >= game.frozen_until && game.current_sentences.any?
     game.update_scene
     game.update_sentences
