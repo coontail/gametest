@@ -1,3 +1,5 @@
+require "rubygems"
+require "bundler/setup"
 require "ruby2d"
 require "fastimage"
 require "taglib"

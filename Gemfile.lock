@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    byebug (9.0.6)
     concurrent-ruby (1.0.5)
     fastimage (2.1.0)
     hike (1.2.3)
@@ -23,9 +24,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  byebug
   fastimage
   ruby2d
   taglib-ruby
 
 BUNDLED WITH
-   1.13.1
+   1.14.6
