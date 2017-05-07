@@ -8,8 +8,12 @@ require "byebug"
 require "./lib/game.rb"
 require "./lib/gameplay.rb"
 
+# 840x630 = cool
+# 1280x960 = cool
+
 set title: "Jeu de test"
-set width: 1200, height: 900
+set width: 1280, height: 960
+# set fullscreen: true
 
 game = Game.new(
   width: get(:width), 
