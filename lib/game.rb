@@ -2,6 +2,9 @@ class Game
 
   attr_accessor :mouse_x
   attr_accessor :mouse_y
+  attr_accessor :screen_width
+  attr_accessor :screen_height
+  attr_accessor :screen_ratio
   attr_accessor :frozen_until
   attr_accessor :current_sentences
 
@@ -16,7 +19,11 @@ class Game
   attr_reader :current_dialogue
   attr_reader :current_dialogue_data
 
-  def initialize
+  def initialize(options={})
+    @screen_width = options[:width]
+    @screen_height = options[:height]
+    @screen_ratio = @screen_width / 1024.0
+
     @current_scene = :scene_1
     @frozen_until = Time.now
     @current_action = :go_to
@@ -29,7 +36,7 @@ class Game
     @current_scene_data = game_map[@current_scene]
 
     update_music
-    update_image
+    update_scene_image
     update_characters
     update_direction_hints
     update_background
@@ -47,10 +54,10 @@ class Game
     end
   end
 
-  def update_image    
-    img = Image.new(0, 0, @current_scene_data[:image_path])
-    img.width = 800
-    img.height = 600
+  def update_scene_image 
+    img = draw_image(0, 0, @current_scene_data[:image_path])
+    img.width = adjust_to_ratio(800)
+    img.height = adjust_to_ratio(600)
   end
 
   def update_characters
@@ -60,21 +67,31 @@ class Game
 
       x1 = 200
       y1 = 150
+      original_width = 300
+      original_height = 450
 
-      sprite = Image.new(x1, y1, @current_character_data[:image_path])
-      sprite.width = 300
-      sprite.height = 450
+      sprite = draw_image(x1, y1, @current_character_data[:image_path])
+      sprite.width = adjust_to_ratio(original_width)
+      sprite.height = adjust_to_ratio(original_height)
 
-      @current_character_coordinates = [[x1, y1], [x1 + sprite.width, y1 + sprite.height]]     
+      @current_character_coordinates = [[x1, y1], [x1 + original_width, y1 + original_height]]     
     else
-      @current_character = nil
-      @current_character_data = nil
-      @current_character_coordinates = nil
+      clear_character_info
     end
   end
-  
+
+  def clear_character_info
+    @current_character = nil
+    @current_character_data = nil
+    @current_character_coordinates = nil
+    @current_dialogue = nil
+    @current_dialogue_data = nil
+  end
+
   def update_background
-    Image.new(0,0, "./data/images/assets/background.png")
+    img = draw_image(0, 0, "./data/images/assets/background.png")
+    img.width = @screen_width
+    img.height = @screen_height
   end
 
   def update_menu
@@ -97,9 +114,9 @@ class Game
       # end
 
       # build_text(*direction_hint_coordinates_for(direction)[0], sign, 25, "red")
-      img = Image.new(*direction_hint_coordinates_for(direction)[0], game_sprites[direction][:image_path])
-      img.width = 32
-      img.height = 32
+      img = draw_image(*direction_hint_coordinates_for(direction)[0], game_sprites[direction][:image_path])
+      img.width = adjust_to_ratio(32)
+      img.height = adjust_to_ratio(32)
     end
   end
 
@@ -216,7 +233,7 @@ class Game
     sentence_data = game_sentences[sentence_key]
 
     if sentence_data[:choices]
-      @current_dialogue_data = sentence_data ## ajouté en dernier, bugge encore
+      @current_dialogue_data = sentence_data ## ajouté en dernier, bugge encore, tester discussion avec merchant2
       update_choices
     else
       display_thumbnail_for(sentence_data[:source])
@@ -266,8 +283,21 @@ class Game
     end
   end
 
+  def adjust_to_ratio(size)
+    (size * @screen_ratio).to_i
+  end
+
+  def draw_image(x, y, path)
+    adjusted_x = adjust_to_ratio(x)
+    adjusted_y = adjust_to_ratio(y)
+    Image.new(adjusted_x, adjusted_y, path)
+  end
+
   def build_text(x, y, text, size, color="white")
-    Text.new(x, y, text, size, "./data/fonts/andersans.ttf", color)
+    adjusted_x = adjust_to_ratio(x)
+    adjusted_y = adjust_to_ratio(y)
+
+    Text.new(adjusted_x, adjusted_y, text, size, "./data/fonts/andersans.ttf", color)
   end
 
   def display_message(text)
@@ -285,9 +315,9 @@ class Game
       when :self then game_characters[:player][:image_path]
       end
     
-    sprite = Image.new(16, 600, thumbnail)
-    sprite.width = 130
-    sprite.height = 150
+    sprite = draw_image(16, 600, thumbnail)
+    sprite.width = adjust_to_ratio(130)
+    sprite.height = adjust_to_ratio(150)
   end
 
   def play_sound(sound)
@@ -323,10 +353,10 @@ class Game
   end
 
   def is_in_rectangle?(x1, y1, x2, y2, xp, yp)
-    xp >= x1 &&
-    xp <= x2 &&
-    yp >= y1 &&
-    yp <= y2 
+    xp >= adjust_to_ratio(x1) &&
+    xp <= adjust_to_ratio(x2) &&
+    yp >= adjust_to_ratio(y1) &&
+    yp <= adjust_to_ratio(y2) 
   end
 
   def choices_coordinates

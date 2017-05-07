@@ -132,7 +132,7 @@ class Gameplay
           choice_sound_path: "./data/dialogues/merchant/choices/1_2.ogg",            
 
           sentences: [
-            :merchant_sentence_6
+            :merchant_sentence_6,
           ]
         },
 

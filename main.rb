@@ -9,9 +9,12 @@ require "./lib/game.rb"
 require "./lib/gameplay.rb"
 
 set title: "Jeu de test"
-set width: 1024, height: 768
+set width: 1200, height: 900
 
-game = Game.new
+game = Game.new(
+  width: get(:width), 
+  height: get(:height)
+)
 
 update do
 
@@ -19,7 +22,7 @@ update do
   # @cursor.remove if @cursor
   # x = get(:mouse_x)
   # y = get(:mouse_y)
-  # @cursor = Image.new(x, y, path)
+  # @cursor = game.draw_image(x, y, path)
 
   if Time.now >= game.frozen_until && game.current_sentences.any?
     game.update_scene
