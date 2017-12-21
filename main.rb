@@ -3,6 +3,7 @@ require "bundler/setup"
 require "ruby2d"
 require "fastimage"
 require "taglib"
+require "decent_exposure"
 require "byebug"
 
 require "./lib/game.rb"
@@ -15,10 +16,12 @@ set title: "Jeu de test"
 set width: 1280, height: 960
 # set fullscreen: true
 
-game = Game.new(
-  width: get(:width), 
+$screen = Screen.new(
+  width: get(:width),
   height: get(:height)
 )
+
+game = Game.new
 
 update do
 

@@ -5,3 +5,4 @@ gem "fastimage"
 gem "ruby2d"
 gem "taglib-ruby"
 gem "byebug"
+# gem 'decent_exposure'

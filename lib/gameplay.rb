@@ -1,4 +1,6 @@
 class Gameplay
+  
+  GAME_WIDTH = 1024.freeze
 
   def self.map
     {
@@ -67,15 +69,15 @@ class Gameplay
 
   def self.sfx
     {
-      clicking: Sound.new("./data/sfx/click.wav"),
-      cough: Sound.new("./data/sfx/cough.wav")
+      clicking: "./data/sfx/click.wav",
+      cough: "./data/sfx/cough.wav"
     }
   end
 
   def self.musics
     {
-      main: Music.new("./data/musics/music_1.ogg"),
-      alternate: Music.new("./data/musics/music_2.mp3")
+      main: "./data/musics/music_1.ogg",
+      alternate: "./data/musics/music_2.mp3"
     }
   end
 
@@ -241,12 +243,31 @@ class Gameplay
     }
   end
 
-  def self.sprites
+  def self.directions
     {
-      left: { image_path: "./data/images/sprites/left_arrow.png" },
-      right: { image_path: "./data/images/sprites/right_arrow.png" },
-      forward: { image_path: "./data/images/sprites/up_arrow.png" },
-      back: { image_path: "./data/images/sprites/down_arrow.png" }
+      left: {
+        image_coordinates:  [[10, 265], [70, 305]],
+        hitbox_coordinates: [[0, 0], [80, 600]],
+        image_path: "./data/images/sprites/left_arrow.png"
+      },
+
+      right: {
+        image_coordinates:  [[730, 265], [790, 305]]
+        hitbox_coordinates: [[720, 0], [800, 600]]
+        image_path: "./data/images/sprites/right_arrow.png"
+      },
+
+      forward: {
+        image_coordinates:  [[375, 270], [420, 305]]
+        hitbox_coordinates: [[165, 165], [600, 400]]
+        image_path: "./data/images/sprites/up_arrow.png"
+      },
+
+      back: {
+        image_coordinates:  [[375, 530], [420, 560]]
+        hitbox_coordinates: [[160, 485], [650, 580]]
+        image_path: "./data/images/sprites/down_arrow.png"
+      }
     }
   end
 

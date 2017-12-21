@@ -1,80 +1,60 @@
 class Game
 
-  attr_accessor :mouse_x
-  attr_accessor :mouse_y
-  attr_accessor :screen_width
-  attr_accessor :screen_height
-  attr_accessor :screen_ratio
-  attr_accessor :frozen_until
-  attr_accessor :current_sentences
+  # attr_accessor :mouse_x
+  # attr_accessor :mouse_y
+  # attr_accessor :frozen_until
+  # attr_accessor :current_sentences
 
-  attr_reader :current_scene
-  attr_reader :current_scene_data
-  attr_reader :current_music
-  attr_reader :current_character
-  attr_reader :current_character_data
-  attr_reader :current_character_coordinates
-  attr_reader :current_sound
-  attr_reader :current_action
-  attr_reader :current_dialogue
-  attr_reader :current_dialogue_data
+  # attr_reader :current_scene
+  # attr_reader :current_scene_data
+  # attr_reader :current_music
+  # attr_reader :current_character
+  # attr_reader :current_character_data
+  # attr_reader :current_character_coordinates
+  # attr_reader :current_sound
+  # attr_reader :current_action
+  # attr_reader :current_dialogue
+  # attr_reader :current_dialogue_data
+
+  include Exposers::GameplayExposer
 
   def initialize(options={})
-    @screen_width = options[:width]
-    @screen_height = options[:height]
-    @screen_ratio = @screen_width / 1024.0
-
     @current_scene = :scene_1
     @frozen_until = Time.now
     @current_action = :go_to
     @current_sentences = []
+    @directions = []
 
     update_scene
   end
 
-  def update_scene
+  def call
     @current_scene_data = game_map[@current_scene]
 
     update_music
     update_scene_image
     update_characters
-    update_direction_hints
+    draw_direction_arrows
     update_background
     update_menu
   end
 
+  # private
+
   def update_music
-    new_music = game_map[@current_scene][:music] || :main
-
-    if @current_music != new_music
-      @current_music = new_music
-
-      game_music[@current_music].loop = true
-      game_music[@current_music].play
-    end
+    music.update game_map[@current_scene][:music]
   end
 
-  def update_scene_image 
-    img = draw_image(0, 0, @current_scene_data[:image_path])
-    img.width = adjust_to_ratio(800)
-    img.height = adjust_to_ratio(600)
+  def update_scene_image
+    screen.draw_scene(@current_scene_data[:image_path])
   end
 
   def update_characters
-    if @current_scene_data[:character]
-      @current_character = @current_scene_data[:character]
-      @current_character_data = game_characters[@current_character]
+    key = @current_scene_data[:character]
 
-      x1 = 200
-      y1 = 150
-      original_width = 300
-      original_height = 450
-
-      sprite = draw_image(x1, y1, @current_character_data[:image_path])
-      sprite.width = adjust_to_ratio(original_width)
-      sprite.height = adjust_to_ratio(original_height)
-
-      @current_character_coordinates = [[x1, y1], [x1 + original_width, y1 + original_height]]     
+    if key
+      @character = Character.new(key)
+      # @character.draw
     else
       clear_character_info
     end
@@ -82,16 +62,12 @@ class Game
 
   def clear_character_info
     @current_character = nil
-    @current_character_data = nil
-    @current_character_coordinates = nil
     @current_dialogue = nil
     @current_dialogue_data = nil
   end
 
   def update_background
-    img = draw_image(0, 0, "./data/images/assets/background.png")
-    img.width = @screen_width
-    img.height = @screen_height
+    #screen.draw_overlay
   end
 
   def update_menu
@@ -101,23 +77,14 @@ class Game
     end
   end
 
-  def update_direction_hints
+  def draw_direction_arrows
     map_events = @current_scene_data[:events]
 
-    map_events.keys.each do |direction|
-
-      # sign = case direction
-      # when :left then "<"
-      # when :right then ">"
-      # when :forward then "^"
-      # when :back then "v"
-      # end
-
-      # build_text(*direction_hint_coordinates_for(direction)[0], sign, 25, "red")
-      img = draw_image(*direction_hint_coordinates_for(direction)[0], game_sprites[direction][:image_path])
-      img.width = adjust_to_ratio(32)
-      img.height = adjust_to_ratio(32)
+    @directions = map_events.keys.map do |direction|
+      Direction.new(direction)
     end
+
+    @direction.each(&:draw)
   end
 
   def get_event
@@ -129,10 +96,10 @@ class Game
 
   def get_map_event
     map_events = @current_scene_data[:events]
-    
+  
     map_event = map_events.find do |direction, event|
-      coordinates = direction.is_a?(Symbol) ? direction_to_coordinates(direction) : direction
-      is_in_rectangle?(*coordinates.flatten, @mouse_x, @mouse_y)
+      hitbox = @directions.find{ |d| d.direction_key == direction }.hitbox
+      is_in_rectangle?(*hitbox.flatten, @mouse_x, @mouse_y)
     end
 
     if map_event
@@ -197,7 +164,7 @@ class Game
     when [:direction, :go_to]
       @current_scene = event[:end_scene]
       update_scene
-      play_sound(game_sfx[:clicking])
+      play_sfx(:clicking)
 
     when [:character, :talk_to]
       update_dialogues
@@ -258,7 +225,7 @@ class Game
         end
       
       else
-        play_sound(game_sfx[:cough])
+        play_sfx(:cough)
       end
     end
   end
@@ -283,16 +250,6 @@ class Game
     end
   end
 
-  def adjust_to_ratio(size)
-    (size * @screen_ratio).to_i
-  end
-
-  def draw_image(x, y, path)
-    adjusted_x = adjust_to_ratio(x)
-    adjusted_y = adjust_to_ratio(y)
-    Image.new(adjusted_x, adjusted_y, path)
-  end
-
   def build_text(x, y, text, size, color="white")
     adjusted_x = adjust_to_ratio(x)
     adjusted_y = adjust_to_ratio(y)
@@ -309,47 +266,21 @@ class Game
   end
 
   def display_thumbnail_for(source)
-    thumbnail = 
+    thumbnail_path = 
       case source
       when :character then @current_character_data[:image_path]
       when :self then game_characters[:player][:image_path]
       end
     
-    sprite = draw_image(16, 600, thumbnail)
-    sprite.width = adjust_to_ratio(130)
-    sprite.height = adjust_to_ratio(150)
+    screen.draw_dialogue_thumbnail(thumbnail_path)
   end
 
-  def play_sound(sound)
-    new_sound = sound.is_a?(Sound) ? sound : Sound.new(sound)
-
-    # @current_sound.stop unless @current_sound.nil?
-
-    @current_sound = new_sound
-    @current_sound.play
-
-    sound_duration = TagLib::FileRef.open(@current_sound.path){ |fileref| fileref.audio_properties.length } * 1.5
-    freeze_game_for(sound_duration)
+  def play_sound(path)
+    GameSound.new(path).play
   end
 
-  def direction_to_coordinates(direction)
-    case direction
-    when :left then [[0, 0], [80, 600]]
-    when :right then [[720, 0], [800, 600]]
-    when :forward then [[165, 165], [600, 400]]
-    # when :up then [[135, 0], [650, 100]]
-    when :back then [[160, 485], [650, 580]]
-    end
-  end
-
-  def direction_hint_coordinates_for(direction)
-    case direction
-    when :left then [[10, 265], [70, 305]]
-    when :right then [[730, 265], [790, 305]]
-    when :forward then [[375, 270], [420, 305]]
-    # when :up then [[135, 0], [650, 100]]
-    when :back then [[375, 530], [420, 560]]
-    end
+  def play_sfx(key)
+    GameSfx.new(key).play
   end
 
   def is_in_rectangle?(x1, y1, x2, y2, xp, yp)
@@ -357,50 +288,6 @@ class Game
     xp <= adjust_to_ratio(x2) &&
     yp >= adjust_to_ratio(y1) &&
     yp <= adjust_to_ratio(y2) 
-  end
-
-  def choices_coordinates
-    @choices_coordinates ||= Gameplay.choices_coordinates
-  end
-
-  def game_choices
-    @game_choices ||= Gameplay.choices
-  end
-
-  def game_sentences
-    @game_sentences ||= Gameplay.sentences
-  end
-
-  def game_descriptions
-    @game_descriptions ||= Gameplay.descriptions
-  end
-
-  def game_menus
-    @game_menu ||= Gameplay.menus
-  end
-
-  def game_dialogues
-    @game_dialogues ||= Gameplay.dialogues
-  end
-
-  def game_characters
-    @game_characters ||= Gameplay.characters
-  end
-
-  def game_map
-    @game_map ||= Gameplay.map
-  end
-
-  def game_sfx
-    @game_sfx ||= Gameplay.sfx
-  end
-
-  def game_music
-    @game_music ||= Gameplay.musics
-  end
-
-  def game_sprites
-    @game_sprites ||= Gameplay.sprites
   end
 
 end
