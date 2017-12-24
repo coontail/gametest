@@ -16,9 +16,8 @@ class Game
   # attr_reader :current_dialogue
   # attr_reader :current_dialogue_data
 
-  include Exposers::GameplayExposer
-
   def initialize(options={})
+    @current_menu_items = init_menu_items
     @current_scene = :scene_1
     @frozen_until = Time.now
     @current_action = :go_to
@@ -28,14 +27,20 @@ class Game
     update_scene
   end
 
-  def call
+  def init_menu_items
+    [:go_to, :look_at, :talk_to, :take, :give].map do |key|
+      GameObject::MenuItem.new(key)
+    end
+  end
+
+  def update_scene
     @current_scene_data = game_map[@current_scene]
 
     update_music
     update_scene_image
     update_characters
     draw_direction_arrows
-    update_background
+    update_overlay
     update_menu
   end
 
@@ -53,8 +58,8 @@ class Game
     key = @current_scene_data[:character]
 
     if key
-      @character = Character.new(key)
-      # @character.draw
+      @current_character = Character.new(key)
+      @current_character.image.draw
     else
       clear_character_info
     end
@@ -66,25 +71,25 @@ class Game
     @current_dialogue_data = nil
   end
 
-  def update_background
-    #screen.draw_overlay
+  def update_overlay
+    key = @current_scene_data[:overlay] || :main
+
+    @current_overlay = Overlay.new(key)
+    @current_overlay.image.draw
   end
 
   def update_menu
-    game_menus.each do |k,v|
-      color = (@current_action == v[:action] ? "black" : "white")
-      build_text(*k.first, v[:text], 22, color)
+    @current_menu_items.each do |menu_item|
+      # color = (@current_action == v[:action] ? "black" : "white")
+      menu_item.text.write
     end
   end
 
   def draw_direction_arrows
     map_events = @current_scene_data[:events]
 
-    @directions = map_events.keys.map do |direction|
-      Direction.new(direction)
-    end
-
-    @direction.each(&:draw)
+    @directions = map_events.keys.map { |key| Direction.new(key) }
+    @directions.each { |direction| direction.image.draw }
   end
 
   def get_event
@@ -97,9 +102,9 @@ class Game
   def get_map_event
     map_events = @current_scene_data[:events]
   
-    map_event = map_events.find do |direction, event|
-      hitbox = @directions.find{ |d| d.direction_key == direction }.hitbox
-      is_in_rectangle?(*hitbox.flatten, @mouse_x, @mouse_y)
+    map_event = map_events.find do |direction_key, event|
+      direction = @directions.find{ |direction| direction.key == direction_key }
+      direction.hitbox.is_touched_by?(@mouse_x, @mouse_y)
     end
 
     if map_event
@@ -108,9 +113,9 @@ class Game
   end
 
   def get_menu_event
-    menu_event = game_menus.find do |coordinates, data|
-      is_in_rectangle?(*coordinates.flatten, @mouse_x, @mouse_y)
-    end    
+    menu_event = @current_menu_items.find do |menu_item|
+      menu_item.hitbox.is_touched_by?(@mouse_x, @mouse_y)
+    end
 
     if menu_event
       { type: :menu }.merge(menu_event.last)
@@ -143,7 +148,7 @@ class Game
   end
 
   def get_character_event
-    if @current_character && is_in_rectangle?(*@current_character_coordinates.flatten, @mouse_x, @mouse_y)
+    if @current_character && @current_character.hitbox.is_touched_by?(@mouse_x, @mouse_y)
       { type: :character }.merge(@current_character_data)
     end
   end
@@ -250,6 +255,7 @@ class Game
     end
   end
 
+  # TODO : Faire une classe/module de Text comme pour hitbox et consorts
   def build_text(x, y, text, size, color="white")
     adjusted_x = adjust_to_ratio(x)
     adjusted_y = adjust_to_ratio(y)
@@ -283,11 +289,6 @@ class Game
     GameSfx.new(key).play
   end
 
-  def is_in_rectangle?(x1, y1, x2, y2, xp, yp)
-    xp >= adjust_to_ratio(x1) &&
-    xp <= adjust_to_ratio(x2) &&
-    yp >= adjust_to_ratio(y1) &&
-    yp <= adjust_to_ratio(y2) 
-  end
+
 
 end

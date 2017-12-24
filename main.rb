@@ -3,11 +3,10 @@ require "bundler/setup"
 require "ruby2d"
 require "fastimage"
 require "taglib"
-require "decent_exposure"
 require "byebug"
+require "require_all"
 
-require "./lib/game.rb"
-require "./lib/gameplay.rb"
+require_all "./lib/**/*.rb"
 
 # 840x630 = cool
 # 1280x960 = cool

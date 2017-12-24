@@ -1,4 +1,4 @@
-class GameSfx < GameSound
+class GameSound::Sfx < GameSound::Base
 
   def initialize(key)
     @sound_path = game_sfxs[key]

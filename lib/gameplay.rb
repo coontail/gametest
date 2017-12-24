@@ -1,4 +1,4 @@
-class Gameplay
+module Gameplay
   
   GAME_WIDTH = 1024.freeze
 
@@ -7,7 +7,7 @@ class Gameplay
       scene_1: {
         image_path: "./data/images/scenes/1.png",
         events: {
-          left: { end_scene: :scene_3 },
+          left:  { end_scene: :scene_3 },
           right: { end_scene: :scene_2 }
         }   
       },
@@ -16,7 +16,7 @@ class Gameplay
         image_path: "./data/images/scenes/2.png",
         character: :merchant,
         events: {
-          left:  { end_scene: :scene_1 },
+          left:   { end_scene: :scene_1 },
           right:  { end_scene: :scene_3 }
         }   
       },
@@ -24,8 +24,8 @@ class Gameplay
       scene_3: {
         image_path: "./data/images/scenes/3.png",
         events: {
-          left: { end_scene: :scene_2 },
-          right: { end_scene: :scene_1 },
+          left:    { end_scene: :scene_2 },
+          right:   { end_scene: :scene_1 },
           forward: { end_scene: :scene_4 }
         }
       },
@@ -33,7 +33,7 @@ class Gameplay
       scene_4: {
         image_path: "./data/images/scenes/4.png",
         events: {
-          back: { end_scene: :scene_3 },
+          back:    { end_scene: :scene_3 },
           forward: { end_scene: :scene_5 }
         }
       },
@@ -69,43 +69,24 @@ class Gameplay
 
   def self.sfx
     {
-      clicking: "./data/sfx/click.wav",
-      cough: "./data/sfx/cough.wav"
+      clicking: {
+        sound_path: "./data/sfx/click.wav"
+      },
+
+      cough: {
+        sound_path: "./data/sfx/cough.wav"
+      }
     }
   end
 
   def self.musics
     {
-      main: "./data/musics/music_1.ogg",
-      alternate: "./data/musics/music_2.mp3"
-    }
-  end
-
-  def self.menus
-    {
-      [[860,630], [960, 650]]  => {
-        text: "Aller vers",
-        action: :go_to
+      main: {
+        music_path: "./data/musics/music_1.ogg"
       },
 
-      [[820, 670], [905,690]] => {
-        text: "Regarder",
-        action: :look_at
-      },
-
-      [[930, 670], [990, 690]] => {
-        text: "Parler",
-        action: :talk_to
-      },
-
-      [[820, 710], [900, 730]] => {
-        text: "Prendre",
-        action: :take
-      },
-      
-      [[930, 710], [1000, 730]] => {
-        text: "Donner",
-        action: :give
+      alternate: {
+        music_path: "./data/musics/music_2.mp3"
       }
     }
   end
@@ -239,34 +220,6 @@ class Gameplay
       
       [[175, 715], [780, 740]] => {
         choice: :choice_3
-      }
-    }
-  end
-
-  def self.directions
-    {
-      left: {
-        image_coordinates:  [[10, 265], [70, 305]],
-        hitbox_coordinates: [[0, 0], [80, 600]],
-        image_path: "./data/images/sprites/left_arrow.png"
-      },
-
-      right: {
-        image_coordinates:  [[730, 265], [790, 305]]
-        hitbox_coordinates: [[720, 0], [800, 600]]
-        image_path: "./data/images/sprites/right_arrow.png"
-      },
-
-      forward: {
-        image_coordinates:  [[375, 270], [420, 305]]
-        hitbox_coordinates: [[165, 165], [600, 400]]
-        image_path: "./data/images/sprites/up_arrow.png"
-      },
-
-      back: {
-        image_coordinates:  [[375, 530], [420, 560]]
-        hitbox_coordinates: [[160, 485], [650, 580]]
-        image_path: "./data/images/sprites/down_arrow.png"
       }
     }
   end
