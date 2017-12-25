@@ -6,6 +6,7 @@ module GameSettings
     #
     # GameImage will first look for hash[object_key], and will use settings hash as a whole if not present.
 
+    # Character sprites
     def self.characters
       {
         defaults: {
@@ -21,22 +22,6 @@ module GameSettings
 
         merchant_2: {
           image_path: "./data/characters/merchant2.png"        
-        },
-
-        player: {
-          image_path: "./data/characters/player.png"
-        }
-
-      }
-    end
-
-    def self.dialogue_thumbnails
-      {
-        defaults: {
-          x_position: 16,
-          y_position: 600,
-          width: 130,
-          height: 150
         }
       }
     end
@@ -114,6 +99,30 @@ module GameSettings
           image_path: "./data/images/assets/background.png"
         }
 
+      }
+    end
+
+    # Sentences Thumbnails
+    def self.sentences
+      {
+        defaults: {
+          x_position: 16,
+          y_position: 600,
+          width: 130,
+          height: 150
+        },
+
+        merchant: {
+          image_path: "./data/characters/merchant.png"
+        },
+
+        merchant_2: {
+          image_path: "./data/characters/merchant2.png"        
+        },
+
+        self: {
+          image_path: "./data/characters/player.png"
+        }
       }
     end
 

@@ -31,10 +31,10 @@ update do
   # y = get(:mouse_y)
   # @cursor = game.draw_image(x, y, path)
 
-  # if Time.now >= game.frozen_until && game.current_sentences.any?
-  #   game.update_scene
-  #   game.update_sentences
-  # end
+  if Time.now >= game.frozen_until && game.current_sentences.any?
+    game.update_scene
+    game.update_sentences
+  end
 
   # puts "#{game.current_sentences} #{game.current_character} #{game.current_dialogue} #{game.current_dialogue_data}"
 

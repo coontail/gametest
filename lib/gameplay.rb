@@ -86,6 +86,43 @@ module Gameplay
     }
   end
 
+  def self.sentences
+    {
+      merchant_sentence_1: {
+        source: :merchant
+      },
+
+      merchant_sentence_2: {
+        source: :self
+      },
+
+      merchant_sentence_3: {
+        source: :merchant
+      },
+
+      merchant_sentence_4: {
+        source: :merchant
+      },
+
+      merchant_sentence_5: {
+        source: :self
+      },
+
+      merchant_sentence_6: {
+        source: :merchant
+      },
+
+      merchant_sentence_7: {
+        source: :merchant
+      }
+
+      # merchant_sentence_8: {
+      #   choice: :merchant_choices_1
+      # }
+
+    }
+  end
+
 
   def self.choices
     {
@@ -127,56 +164,7 @@ module Gameplay
     }
   end
 
-  def self.sentences
-    {
-      merchant_sentence_1: {
-        text: "J'ai plein de marchandises a te proposer !",
-        sound_path: "./data/dialogues/merchant/sentences/1.ogg",
-        source: :character
-      },
 
-      merchant_sentence_2: {
-        text: "Ah oui ? Quel type de marchandises ?",
-        sound_path: "./data/dialogues/merchant/sentences/2.ogg",
-        source: :self
-      },
-
-      merchant_sentence_3: {
-        text: "Petit curieux va, ca ne te regarde pas",
-        sound_path: "./data/dialogues/merchant/sentences/3.ogg",
-        source: :character
-      },
-
-      merchant_sentence_4: {
-        text: "Allez, file, du balai !",
-        sound_path: "./data/dialogues/merchant/sentences/4.ogg",
-        source: :character
-      },
-
-      merchant_sentence_5: {
-        text: "Pas tres aimable...",
-        sound_path: "./data/dialogues/merchant/sentences/5.ogg",
-        source: :self
-      },
-
-      merchant_sentence_6: {
-        text: "Tout doux mec, je veux pas d'ennuis moi",
-        sound_path: "./data/dialogues/merchant/sentences/6.ogg",
-        source: :character
-      },
-
-      merchant_sentence_7: {
-        text: "Salut l'ami !",
-        sound_path: "./data/dialogues/merchant/sentences/7.ogg",
-        source: :character
-      },
-
-      merchant_sentence_8: {
-        choice: :merchant_choices_1
-      }
-
-    }
-  end
 
   def self.dialogues
     {

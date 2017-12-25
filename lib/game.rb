@@ -1,10 +1,8 @@
 class Game
 
-  attr_accessor :mouse_x
-  attr_accessor :mouse_y
-  attr_accessor :frozen_until
-  # attr_accessor :current_sentences
+  attr_accessor :mouse_x, :mouse_y, :frozen_until
 
+  attr_reader :current_sentences
   attr_reader :current_scene
   # attr_reader :current_scene_data
   # attr_reader :current_music
@@ -27,7 +25,7 @@ class Game
     @frozen_until = Time.now
 
     @selected_menu_item = GameObject::Direction.new(:go_to)
-    # @current_sentences = []
+    @current_sentences = []
     @directions = []
 
     update_scene
@@ -213,18 +211,28 @@ class Game
   #   end
   # end
 
+  ## Update sentences est géré par le main because gestion du timing etc etc 
   def update_sentences
-    sentence_key = @current_sentences[0]
-    sentence_data = game_sentences[sentence_key]
+    ## ma mission si je l'accepte : Faire en sorte que le bon thumbnail s'affiche, et que les dialogues se lancent les uns après les autres
 
-    if sentence_data[:choices]
-      @current_dialogue_data = sentence_data ## ajouté en dernier, bugge encore, tester discussion avec merchant2
-      update_choices
-    else
-      display_thumbnail_for(sentence_data[:source])
-      display_message(sentence_data[:text])
-      play_sound(sentence_data[:sound_path])
+    @current_sentences[0].tap do |sentence|
+      sentence.image.draw
+      sentence.text.write
+      sentence.sound.play
+      freeze_game_for(sentence.sound.duration)
     end
+
+    # sentence_key = @current_sentences[0]
+    # sentence_data = game_sentences[sentence_key]
+
+    # if sentence_data[:choices]
+    #   @current_dialogue_data = sentence_data ## ajouté en dernier, bugge encore, tester discussion avec merchant2
+    #   update_choices
+    # else
+    #   display_thumbnail_for(sentence_data[:source])
+    #   display_message(sentence_data[:text])
+    #   play_sound(sentence_data[:sound_path])
+    # end
 
     @current_sentences.shift
   end
@@ -241,13 +249,7 @@ class Game
       sentences = @current_character.dialogue.sentences
 
       if sentences 
-        sentences.each do |s|
-          update_scene
-          s.text.write
-
-          ## ma mission si je l'accepte : Faire en sorte que le bon thumbnail s'affiche, et que les dialogues se lancent les uns après les autres
-          s.sound.play && freeze_game_for(s.sound.duration) && sleep(2)
-        end
+        @current_sentences = sentences
       else
         play_sfx(:cough)
       end

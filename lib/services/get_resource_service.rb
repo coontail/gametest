@@ -21,10 +21,19 @@ class GetResourceService
 
   private
 
+  def identifier_method
+    @options[:identifier_method] || :key
+  end
+
+  def identifier
+    @game_object.send(identifier_method)
+  end
+
   def game_object_class_name
     @options[:game_object_class_name] || @game_object.class.name
   end
 
+  # Resource class that should be init
   def custom_class
     @options[:custom_class] || "#{represented_resource}::#{game_object_class_name}"
   end
@@ -46,7 +55,7 @@ class GetResourceService
   end
 
   def settings
-    @default_settings ||= GetSettingsService.new(storage_module, storage_method, @game_object.key).call
+    @default_settings ||= GetSettingsService.new(storage_module, storage_method, identifier).call
   end
 
 end
