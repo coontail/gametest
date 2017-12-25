@@ -9,8 +9,7 @@ class GetHitboxService < GetResourceService
   private
 
   def hitbox_settings
-    default_settings || 
-    calculate_hitbox_settings
+    settings.empty? ? calculate_hitbox_settings : settings
   end
 
   def calculate_hitbox_settings

@@ -1,5 +1,5 @@
-module GameDefaults
-  class HitboxSettings
+module GameSettings
+  class GameHitboxSettings
 
     def self.directions
       {

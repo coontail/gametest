@@ -8,4 +8,8 @@ class String
     downcase
   end
 
+  def demodulize
+    self.split(/::/).last
+  end
+
 end

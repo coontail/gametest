@@ -1,5 +1,5 @@
-module GameDefaults
-  class TextSettings
+module GameSettings
+  class GameTextSettings
 
     def self.menu_items
       {

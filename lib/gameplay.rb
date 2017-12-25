@@ -2,10 +2,9 @@ module Gameplay
   
   GAME_WIDTH = 1024.freeze
 
-  def self.map
+  def self.scenes
     {
       scene_1: {
-        image_path: "./data/images/scenes/1.png",
         events: {
           left:  { end_scene: :scene_3 },
           right: { end_scene: :scene_2 }
@@ -13,7 +12,6 @@ module Gameplay
       },
 
       scene_2: {
-        image_path: "./data/images/scenes/2.png",
         character: :merchant,
         events: {
           left:   { end_scene: :scene_1 },
@@ -22,7 +20,6 @@ module Gameplay
       },
 
       scene_3: {
-        image_path: "./data/images/scenes/3.png",
         events: {
           left:    { end_scene: :scene_2 },
           right:   { end_scene: :scene_1 },
@@ -31,7 +28,6 @@ module Gameplay
       },
 
       scene_4: {
-        image_path: "./data/images/scenes/4.png",
         events: {
           back:    { end_scene: :scene_3 },
           forward: { end_scene: :scene_5 }
@@ -39,7 +35,6 @@ module Gameplay
       },
 
       scene_5: {
-        image_path: "./data/images/scenes/5.png",
         character: :merchant_2,
         events: {
           back: { end_scene: :scene_4 }
@@ -51,19 +46,19 @@ module Gameplay
 
   def self.characters
     {
-      merchant: {
-        image_path: "./data/characters/merchant.png",
-        dialogue: :merchant,
-        description: :merchant
-      },
+      # merchant: {
+      #   image_path: "./data/characters/merchant.png",
+      #   dialogue: :merchant,
+      #   description: :merchant
+      # },
 
-      merchant_2: {
-        image_path: "./data/characters/merchant2.png"        
-      },
+      # merchant_2: {
+      #   image_path: "./data/characters/merchant2.png"        
+      # },
 
-      player: {
-        image_path: "./data/characters/player.png"
-      }
+      # player: {
+      #   image_path: "./data/characters/player.png"
+      # }
     }
   end
 

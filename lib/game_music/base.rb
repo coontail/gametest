@@ -1,18 +1,28 @@
 module GameMusic
   class Base
-    
+
+    attr_reader :key
+
     DEFAULT_MUSIC_KEY = :main.freeze
 
     def initialize(key=DEFAULT_MUSIC_KEY)
-      @current_music_key = key
+      @key = key
     end
 
-    def update(key)
-      music_changed = (@current_music_key != key)
+    def update(new_key)
+      new_key ||= DEFAULT_MUSIC_KEY
 
-      @current_music_key = (key || DEFAULT_MUSIC_KEY)
+      music_changed = @key != new_key
 
-      play_music if music_changed
+      if music_changed
+        @key = new_key
+        play
+      end 
+    end
+
+    def play
+      current_music.loop = true
+      current_music.play
     end
 
     private
@@ -22,12 +32,7 @@ module GameMusic
     end
 
     def current_music
-      Music.new(game_musics[@current_music_key])
-    end
-
-    def play_music
-      current_music.loop = true
-      current_music.play
+      Music.new(game_musics[@key][:music_path])
     end
 
   end

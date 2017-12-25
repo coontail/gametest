@@ -5,14 +5,18 @@ class GetResourceService
     @options = options
   end
 
-  protected
+  # Macro definition
+  
+  class << self
+    attr_accessor :represented_resource
 
-  def self.representing_resource(resource_name)
-    @@represented_resource = resource_name
+    def representing_resource(resource_name)
+      @represented_resource = resource_name
+    end
   end
 
   def represented_resource
-    @@represented_resource
+    self.class.represented_resource
   end
 
   private
@@ -26,24 +30,23 @@ class GetResourceService
   end
 
   def storage_method
-    @options[:storage_method] || "#{game_object_class_name.underscore}s"
+    @options[:storage_method] || "#{game_object_class_name.demodulize.underscore}s"
   end
 
   def storage_module
-    @options[:storage_module] || "GameDefaults::#{represented_resource}Settings"
+    @options[:storage_module] || "GameSettings::#{represented_resource}Settings"
   end
 
   def resource_class
     if Object.const_defined?(custom_class)
       Object.const_get(custom_class)
     else
-      "#{represented_resource}::Base"
+      Object.const_get("#{represented_resource}::Base")
     end
   end
 
-  def default_settings
-    @default_settings ||= GetDefaultSettingsService.new(storage_module, storage_method, @game_object.key).call
+  def settings
+    @default_settings ||= GetSettingsService.new(storage_module, storage_method, @game_object.key).call
   end
-
 
 end

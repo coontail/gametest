@@ -8,23 +8,27 @@ module GameObject
     end
 
     def data
-      @data ||= GetDataService.call(self, options: data_options)
+      @data ||= GetDataService.new(self, data_options).call
     end
 
     def image
-      @image ||= GetImageService.call(self, options: image_options)
+      @image ||= GetImageService.new(self, image_options).call
     end
 
     def hitbox
-      @hitbox ||= GetHitboxService.call(self, options: hitbox_options)
+      @hitbox ||= GetHitboxService.new(self, hitbox_options).call
     end
 
     def text
-      @text ||= GetTextService.call(self, options: text_options)
+      @text ||= GetTextService.new(self, text_options).call
     end
 
+    # def description
+    #   @description ||= GetDescriptionService.new(self, description_options).call
+    # end
+
     %w(data image hitbox text).each do |method_name|
-      define_method("#{method_name}_options"){ {} }
+      define_method("#{method_name}_options") { {} }
     end
 
   end

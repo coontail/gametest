@@ -2,11 +2,10 @@ module GameImage
   class Base
     include Scalable
 
-    attr_reader :x_position, :y_position, :width, :height, :full_screen
+    attr_reader :x_position, :y_position, :width, :height, :full_screen, :path
     
-    def initialize(settings={}, path:)
-      @image_path = path
-
+    def initialize(settings={})
+      @path        = settings[:image_path]
       @x_position  = settings[:x_position]
       @y_position  = settings[:y_position]
       @width       = settings[:width]
@@ -15,29 +14,36 @@ module GameImage
     end
 
     def draw
-      image.draw && resize_image
+      image && resize_image
     end
 
-    %w(x_position y_position width height).each do |attribute|
+    %w(width height).each do |attribute|
       define_method("adjusted_#{attribute}") { adjust_to_ratio send(attribute) }
     end
 
-    private
-    
-    def image
-      @image ||= Image.new(x: adjusted_x_position, y: adjusted_y_position, path: @image_path)
-    end
-
-    def resize_image
-      if @settings[:full_screen] == true
-        set_image_dimensions($screen.width, $screen.height)
-      else
-        set_image_dimensions(ajusted_width, ajusted_height)
+    %w(x_position y_position).each do |attribute|
+      define_method("adjusted_#{attribute}") do
+        full_screen ? 0 : adjust_to_ratio(send(attribute))
       end
     end
 
-    def set_image_dimensions(width, height)
-      image.width, image.height = width, height
+    private
+
+    def image
+      # ||= impossible since Image.new DRAWS the picture
+      @image = Image.new(x: adjusted_x_position, y: adjusted_y_position, path: path)
+    end
+
+    def resize_image
+      if full_screen
+        set_image_dimensions($screen.width, $screen.height)
+      else
+        set_image_dimensions(adjusted_width, adjusted_height)
+      end
+    end
+
+    def set_image_dimensions(new_width, new_height)
+      @image.width, @image.height = new_width, new_height
     end
 
   end

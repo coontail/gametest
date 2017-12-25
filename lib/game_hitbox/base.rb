@@ -12,10 +12,10 @@ module GameHitbox
     end
 
     def is_touched_by?(pointer_x, pointer_y)
-      xp >= adjust_to_ratio(x1_position) &&
-      xp <= adjust_to_ratio(x2_position) &&
-      yp >= adjust_to_ratio(y1_position) &&
-      yp <= adjust_to_ratio(y2_position) 
+      pointer_x >= adjust_to_ratio(x1_position) &&
+      pointer_x <= adjust_to_ratio(x2_position) &&
+      pointer_y >= adjust_to_ratio(y1_position) &&
+      pointer_y <= adjust_to_ratio(y2_position) 
     end
 
   end

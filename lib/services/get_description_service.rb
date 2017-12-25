@@ -1,4 +1,4 @@
-class GetTextService < GetResourceService
+class GetDescriptionService < GetResourceService
 
   representing_resource 'GameText'
 

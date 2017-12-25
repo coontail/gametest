@@ -9,7 +9,7 @@ class GetImageService < GetResourceService
   private
 
   def image_settings
-    {}.merge(default_settings).tap do |settings|
+    {}.merge(settings).tap do |settings|
       settings[:image_path] ||= @game_object.data[:image_path]
     end
   end
