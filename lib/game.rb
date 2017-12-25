@@ -114,7 +114,7 @@ class Game
 
     if touched_direction
       puts touched_direction.key
-      { type: :direction, key: touched_direction.key }
+      { type: :direction, object: touched_direction }
     end
   end
 
@@ -156,7 +156,7 @@ class Game
 
   def get_character_event
     if @current_character && @current_character.hitbox.is_touched_by?(@mouse_x, @mouse_y)
-      { type: :character }#.merge(@current_character_data)
+      { type: :character, key: @current_character.key }
     end
   end
 
@@ -174,7 +174,8 @@ class Game
     case [event[:type], @selected_menu_item.key]
 
     when [:direction, :go_to]
-      next_scene = @current_scene.next_scene_for(event[:key])
+      direction = event[:object]
+      next_scene = @current_scene.next_scene_for(direction.key)
 
       if next_scene
         @current_scene = next_scene
@@ -228,24 +229,30 @@ class Game
     @current_sentences.shift
   end
 
-  # def update_dialogues
-  #   if @current_character
-  #     # @current_dialogue = @current_character #???
-  #     # @current_dialogue_data = @current_character.dialogue #game_dialogues[@current_dialogue]
+  def update_dialogues
+    if @current_character
+        # @current_dialogue = @current_character #???
+        # @current_dialogue_data = @current_character.dialogue #game_dialogues[@current_dialogue]
 
-  #     if @current_dialogue_data
-  
-  #       if @current_dialogue_data[:choices]
-  #         update_choices
-  #       elsif @current_dialogue_data[:sentences]
-  #         @current_sentences = @current_dialogue_data[:sentences].dup
-  #       end
-      
-  #     else
-  #       play_sfx(:cough)
-  #     end
-  #   end
-  # end
+        # if @current_dialogue_data
+    
+        #   if @current_dialogue_data[:choices]
+        #     update_choices
+      sentences = @current_character.dialogue.sentences
+
+      if sentences 
+        sentences.each do |s|
+          update_scene
+          s.text.write
+
+          ## ma mission si je l'accepte : Faire en sorte que le bon thumbnail s'affiche, et que les dialogues se lancent les uns après les autres
+          s.sound.play && freeze_game_for(s.sound.duration) && sleep(2)
+        end
+      else
+        play_sfx(:cough)
+      end
+    end
+  end
 
   def update_choices
     choices = game_choices[@current_dialogue_data[:choices]]

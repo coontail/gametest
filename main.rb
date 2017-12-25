@@ -5,6 +5,7 @@ require "fastimage"
 require "taglib"
 require "byebug"
 require "require_all"
+require "awesome_print"
 
 require_all "./lib/**/*.rb"
 

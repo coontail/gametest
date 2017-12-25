@@ -86,6 +86,7 @@ module Gameplay
     }
   end
 
+
   def self.choices
     {
       merchant_choices_1: {   
@@ -171,7 +172,7 @@ module Gameplay
       },
 
       merchant_sentence_8: {
-        choices: :merchant_choices_1
+        choice: :merchant_choices_1
       }
 
     }
@@ -179,16 +180,25 @@ module Gameplay
 
   def self.dialogues
     {
+      # merchant: {
+      #   choice: :merchant_choices_1
+      # },
+
       merchant: {
-        choices: :merchant_choices_1
-      },
+        sentences: [
+          :merchant_sentence_4,
+          :merchant_sentence_5,
+          :merchant_sentence_7
+          # :merchant_sentence_8
+        ]
+        },
 
       merchant_2: {
         sentences: [
           :merchant_sentence_4,
           :merchant_sentence_5,
-          :merchant_sentence_7,
-          :merchant_sentence_8
+          :merchant_sentence_7
+          # :merchant_sentence_8
         ]
       }
     }

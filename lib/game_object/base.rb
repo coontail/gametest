@@ -23,11 +23,15 @@ module GameObject
       @text ||= GetTextService.new(self, text_options).call
     end
 
+    def sound
+      @sound ||= GetSoundService.new(self, sound_options).call
+    end
+
     # def description
     #   @description ||= GetDescriptionService.new(self, description_options).call
     # end
 
-    %w(data image hitbox text).each do |method_name|
+    %w(data image hitbox text sound).each do |method_name|
       define_method("#{method_name}_options") { {} }
     end
 

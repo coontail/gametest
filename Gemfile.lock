@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.3.0)
+    awesome_print (1.8.0)
     byebug (9.1.0)
     fastimage (2.1.0)
     hike (1.2.3)
@@ -22,6 +23,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  awesome_print
   byebug
   fastimage
   require_all

@@ -35,5 +35,42 @@ module GameSettings
       }
     end
 
+    def self.sentences
+      {
+        defaults: {
+          x_position: 175,  
+          y_position: 615
+        }, 
+
+        merchant_sentence_1: {
+          body: "J'ai plein de marchandises a te proposer !"
+        },
+
+        merchant_sentence_2: {
+          body: "Ah oui ? Quel type de marchandises ?"
+        },
+
+        merchant_sentence_3: {
+          body: "Petit curieux va, ca ne te regarde pas"
+        },
+
+        merchant_sentence_4: {
+          body: "Allez, file, du balai !"
+        },
+
+        merchant_sentence_5: {
+          body: "Pas tres aimable..."
+        },
+
+        merchant_sentence_6: {
+          body: "Tout doux mec, je veux pas d'ennuis moi"
+        },
+
+        merchant_sentence_7: {
+          body: "Salut l'ami !"
+        }
+      }
+    end
+
   end
 end

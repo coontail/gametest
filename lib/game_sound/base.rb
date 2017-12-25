@@ -1,8 +1,8 @@
 module GameSound
   class Base
 
-    def initialize(path)
-      @sound_path = path
+    def initialize(settings={})
+      @sound_path = settings[:sound_path]
     end
 
     def play
