@@ -33,5 +33,13 @@ module GameSettings
       }
     end
 
+    def self.descriptions
+      {
+        merchant: {
+          sound_path: "./data/descriptions/merchant.ogg"
+        }
+      }
+    end
+
   end
 end

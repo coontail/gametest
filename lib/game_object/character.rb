@@ -5,4 +5,9 @@ class GameObject::Character < GameObject::Base
     GameObject::Dialogue.new(key)
   end
 
+  # Idem ?
+  def description
+    GameObject::Description.new(key)
+  end
+
 end

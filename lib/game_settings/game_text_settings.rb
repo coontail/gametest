@@ -72,5 +72,18 @@ module GameSettings
       }
     end
 
+    def self.descriptions
+      {
+        defaults: {
+          x_position: 175,  
+          y_position: 615
+        }, 
+
+        merchant: {
+          body: "C'est un vieux marchand obese avec une veste de riche sur l'epaule"
+        }
+      }
+    end
+
   end
 end

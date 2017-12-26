@@ -124,45 +124,45 @@ module Gameplay
   end
 
 
-  def self.choices
-    {
-      merchant_choices_1: {   
-        default_text: "Salut l'etranger, que fais-tu ici ?",
-        default_sound_path: "./data/dialogues/merchant/default.ogg",
+  # def self.choices
+  #   {
+  #     merchant_choices_1: {   
+  #       default_text: "Salut l'etranger, que fais-tu ici ?",
+  #       default_sound_path: "./data/dialogues/merchant/default.ogg",
 
-        choice_1: { 
-          choice_text: "Je ne sais pas trop, pour etre honnete...",
-          choice_sound_path: "./data/dialogues/merchant/choices/1_1.ogg",
+  #       choice_1: { 
+  #         choice_text: "Je ne sais pas trop, pour etre honnete...",
+  #         choice_sound_path: "./data/dialogues/merchant/choices/1_1.ogg",
 
-          sentences: [
-            :merchant_sentence_1,
-            :merchant_sentence_2,
-            :merchant_sentence_3,
-            :merchant_sentence_4,
-            :merchant_sentence_5
-          ]
-        },
+  #         sentences: [
+  #           :merchant_sentence_1,
+  #           :merchant_sentence_2,
+  #           :merchant_sentence_3,
+  #           :merchant_sentence_4,
+  #           :merchant_sentence_5
+  #         ]
+  #       },
 
-        choice_2: {
-          choice_text: "En quoi ca vous regarde ?",
-          choice_sound_path: "./data/dialogues/merchant/choices/1_2.ogg",            
+  #       choice_2: {
+  #         choice_text: "En quoi ca vous regarde ?",
+  #         choice_sound_path: "./data/dialogues/merchant/choices/1_2.ogg",            
 
-          sentences: [
-            :merchant_sentence_6,
-          ]
-        },
+  #         sentences: [
+  #           :merchant_sentence_6,
+  #         ]
+  #       },
 
-        choice_3: {
-          choice_text: "Au revoir",
-          choice_sound_path: "./data/dialogues/merchant/choices/1_3.ogg",
+  #       choice_3: {
+  #         choice_text: "Au revoir",
+  #         choice_sound_path: "./data/dialogues/merchant/choices/1_3.ogg",
 
-          sentences: [
-            :merchant_sentence_7
-          ]
-        }
-      }
-    }
-  end
+  #         sentences: [
+  #           :merchant_sentence_7
+  #         ]
+  #       }
+  #     }
+  #   }
+  # end
 
 
 
@@ -192,14 +192,14 @@ module Gameplay
     }
   end
 
-  def self.descriptions
-    {
-      merchant: {
-        text: "C'est un vieux marchand obese avec une veste de riche sur l'epaule",
-        sound_path: "./data/descriptions/merchant.ogg"
-      }
-    }
-  end
+  # def self.descriptions
+  #   {
+  #     merchant: {
+  #       text: "C'est un vieux marchand obese avec une veste de riche sur l'epaule",
+  #       sound_path: "./data/descriptions/merchant.ogg"
+  #     }
+  #   }
+  # end
 
   def self.choices_coordinates
     {

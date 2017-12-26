@@ -185,8 +185,8 @@ class Game
     when [:character, :talk_to]
       update_dialogues
     
-    # when [:character, :look_at]
-    #   update_description(@current_character)
+    when [:character, :look_at]
+      update_description(@current_character)
     end
   end
 
@@ -201,15 +201,13 @@ class Game
   #   @current_sentences = choice_data[:sentences].dup
   # end
 
-  # def update_description(object)
-  #   description_data = game_descriptions[object]
-
-  #   if description_data
-  #     display_message(description_data[:text])
-  #     display_thumbnail_for(:self)
-  #     play_sound(description_data[:sound_path])
-  #   end
-  # end
+  def update_description(object)
+    if object.description # Tester sur merchant2, des soucis
+      object.description.text.write
+      object.description.sound.play
+      freeze_game_for(object.description.sound.duration)
+    end
+  end
 
   ## Update sentences est géré par le main because gestion du timing etc etc 
   def update_sentences
