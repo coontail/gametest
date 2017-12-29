@@ -13,7 +13,7 @@ module GameMusic
       new_key ||= DEFAULT_MUSIC_KEY
 
       music_changed = @key != new_key
-
+      
       if music_changed
         @key = new_key
         play

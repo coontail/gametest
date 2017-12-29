@@ -1,5 +1,11 @@
 class GameObject::Sentence < GameObject::Base
 
+  def choices
+    (data[:choices] || []).map do |choice_key|
+      GameObject::Choice.new(choice_key)
+    end
+  end
+
   def image_options
     { identifier_method: :source }
   end

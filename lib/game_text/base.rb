@@ -4,7 +4,7 @@ module GameText
 
     DEFAULT_FONT = "./data/fonts/andersans.ttf"
 
-    attr_reader :x_position, :y_position, :body, :size, :color, :font
+    attr_accessor :x_position, :y_position, :body, :size, :color, :font
 
     def initialize(settings={})
       @x_position = settings[:x_position]

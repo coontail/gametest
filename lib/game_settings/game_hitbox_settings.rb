@@ -72,30 +72,30 @@ module GameSettings
       }
     end
 
-    # def self.choices
-    #   {
-    #     choice_1: {
-    #       x1_position: 175,
-    #       x2_position: 780,
-    #       y1_position: 665,
-    #       y2_position: 685
-    #     },
+    def self.choices
+      {
+        choice_1: {
+          x1_position: 175,
+          x2_position: 780,
+          y1_position: 665,
+          y2_position: 685
+        },
 
-    #     choice_2: {
-    #       x1_position: 175,
-    #       x2_position: 780,
-    #       y1_position: 690,
-    #       y2_position: 720
-    #     },
+        choice_2: {
+          x1_position: 175,
+          x2_position: 780,
+          y1_position: 690,
+          y2_position: 720
+        },
 
-    #     choice_3: {
-    #       x1_position: 175,
-    #       x2_position: 780,
-    #       y1_position: 715,
-    #       y2_position: 740
-    #     }
-    #   }
-    # end
+        choice_3: {
+          x1_position: 175,
+          x2_position: 780,
+          y1_position: 715,
+          y2_position: 740
+        }
+      }
+    end
 
   end
 end

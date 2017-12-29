@@ -3,6 +3,9 @@ module GameSettings
 
     def self.sentences
       {
+
+        ### Merchant ###
+        
         merchant_sentence_1: {
           sound_path: "./data/dialogues/merchant/sentences/1.ogg"
         },
@@ -29,9 +32,30 @@ module GameSettings
 
         merchant_sentence_7: {
           sound_path: "./data/dialogues/merchant/sentences/7.ogg"
+        },
+
+        # Merchant - Choices
+
+        merchant_sentence_with_choices_1: {
+          sound_path: "./data/dialogues/merchant/default.ogg"
+        },
+
+        # Merchant - Choice answers
+
+        merchant_choice_answer_1: {
+          sound_path: "./data/dialogues/merchant/choices/1_1.ogg"
+        },
+
+        merchant_choice_answer_2: {
+          sound_path: "./data/dialogues/merchant/choices/1_2.ogg"
+        },
+
+        merchant_choice_answer_3: {
+          sound_path: "./data/dialogues/merchant/choices/1_3.ogg"
         }
       }
     end
+
 
     def self.descriptions
       {

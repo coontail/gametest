@@ -126,5 +126,17 @@ module GameSettings
       }
     end
 
+    def self.descriptions
+      {
+        defaults: {
+          x_position: 16,
+          y_position: 600,
+          width: 130,
+          height: 150,
+          image_path: "./data/characters/player.png"
+        }
+      }
+    end
+
   end
 end

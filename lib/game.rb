@@ -4,6 +4,7 @@ class Game
 
   attr_reader :current_sentences
   attr_reader :current_scene
+  attr_reader :current_choices
   # attr_reader :current_scene_data
   # attr_reader :current_music
   # attr_reader :current_character
@@ -22,6 +23,7 @@ class Game
     @background_music = GameMusic::Base.new
     @current_scene = GameObject::Scene.new(:scene_1)
     @current_character = nil
+    @current_choices = []
     @frozen_until = Time.now
 
     @selected_menu_item = GameObject::Direction.new(:go_to)
@@ -52,8 +54,6 @@ class Game
   end
 
   def update_scene_image
-    # puts "UPDATE SCENE IMAGE"
-    # puts @current_scene.image.path
     @current_scene.image.draw
   end
 
@@ -83,6 +83,7 @@ class Game
 
   def update_menu
     @current_menu_items.each do |menu_item|
+      # Todo, gérer le statut "actif"
       # color = (@current_action == v[:action] ? "black" : "white")
       menu_item.text.write
     end
@@ -97,12 +98,13 @@ class Game
 
   def get_event
     get_menu_event || 
-    # get_choice_event ||
+    get_choice_event ||
     get_map_event || 
     get_character_event
   end
 
   def get_map_event
+    #  TODO foutre une méthode events dans scene ?
     map_events = @current_scene.data[:events]
     concerned_directions = @directions.select { |direction| map_events.keys.include?(direction.key) }
 
@@ -127,30 +129,17 @@ class Game
     end
   end
 
-  # def get_choice_event
-  #   if @current_dialogue_data
-  #     choice_event = available_choices_coordinates.find do |coordinates, choice|
-  #       is_in_rectangle?(*coordinates.flatten, @mouse_x, @mouse_y)
-  #     end    
+  def get_choice_event
+    if @current_choices
+      touched_choice = @current_choices.find do |choice|
+        choice.hitbox.is_touched_by?(@mouse_x, @mouse_y)
+      end    
 
-  #     if choice_event
-  #       { type: :choice }.merge(choice_event.last)
-  #     end
-
-  #   end
-  # end
-
-  # def available_choices_coordinates
-  #   if @current_dialogue_data[:choices]
-        
-  #     choices_key = @current_dialogue_data[:choices]
-  #     choices_keys = game_choices[choices_key].keys
-
-  #     choices_coordinates.select{ |coordinates, data| choices_keys.include?(data[:choice]) }
-  #   else
-  #     {}
-  #   end
-  # end
+      if touched_choice
+        { type: :choice, object: touched_choice }
+      end
+    end
+  end
 
   def get_character_event
     if @current_character && @current_character.hitbox.is_touched_by?(@mouse_x, @mouse_y)
@@ -165,9 +154,10 @@ class Game
       # update_menu
     end
 
-    # if event[:type] == :choice
-    #   apply_choice(event[:choice])
-    # end
+    if event[:type] == :choice
+      @current_choices = nil
+      @current_sentences = event[:object].sentences
+    end
 
     case [event[:type], @selected_menu_item.key]
 
@@ -190,19 +180,20 @@ class Game
     end
   end
 
-  # def apply_choice(choice)
-  #   choices_key = @current_dialogue_data[:choices]
-  #   choice_data = game_choices[choices_key][choice]
+  def apply_choice(choice)
+    choices_key = @current_dialogue_data[:choices]
+    choice_data = game_choices[choices_key][choice]
 
-  #   display_message(choice_data[:choice_text])
-  #   display_thumbnail_for(:self)
-  #   play_sound(choice_data[:choice_sound_path])
+    display_message(choice_data[:choice_text])
+    display_thumbnail_for(:self)
+    play_sound(choice_data[:choice_sound_path])
 
-  #   @current_sentences = choice_data[:sentences].dup
-  # end
+    @current_sentences = choice_data[:sentences].dup
+  end
 
   def update_description(object)
     if object.description # Tester sur merchant2, des soucis
+      object.description.image.draw
       object.description.text.write
       object.description.sound.play
       freeze_game_for(object.description.sound.duration)
@@ -210,6 +201,7 @@ class Game
   end
 
   ## Update sentences est géré par le main because gestion du timing etc etc 
+  ## Renommer classe et sentences par dialogue_sentences pour éviter la confusion?
   def update_sentences
     ## ma mission si je l'accepte : Faire en sorte que le bon thumbnail s'affiche, et que les dialogues se lancent les uns après les autres
 
@@ -218,21 +210,16 @@ class Game
       sentence.text.write
       sentence.sound.play
       freeze_game_for(sentence.sound.duration)
+
+      if sentence.choices.any?
+        @current_sentences = []
+        @current_choices = sentence.choices
+        @current_choices.each { |choice| choice.text.write }
+      else
+        @current_sentences.shift
+      end
     end
 
-    # sentence_key = @current_sentences[0]
-    # sentence_data = game_sentences[sentence_key]
-
-    # if sentence_data[:choices]
-    #   @current_dialogue_data = sentence_data ## ajouté en dernier, bugge encore, tester discussion avec merchant2
-    #   update_choices
-    # else
-    #   display_thumbnail_for(sentence_data[:source])
-    #   display_message(sentence_data[:text])
-    #   play_sound(sentence_data[:sound_path])
-    # end
-
-    @current_sentences.shift
   end
 
   def update_dialogues
@@ -254,62 +241,13 @@ class Game
     end
   end
 
-  def update_choices
-    choices = game_choices[@current_dialogue_data[:choices]]
-
-    display_thumbnail_for(:character)
-    display_message(choices[:default_text])
-
-    if choices[:default_sound_path]
-      play_sound(choices[:default_sound_path])
-    end
-  
-    displayable_choices = choices.reject{ |key| [:default_sound_path, :default_text].include?(key)}
-    display_choices(displayable_choices)
-  end
-
-  # def display_choices(choices)
-  #   choices.each_with_index do |(choice_key, choice_data), index|
-  #     build_text(*available_choices_coordinates.keys[index][0], choice_data[:choice_text], 17)
-  #   end
-  # end
-
-  # # TODO : Faire une classe/module de Text comme pour hitbox et consorts
-  # def build_text(x, y, text, size, color="white")
-  #   adjusted_x = adjust_to_ratio(x)
-  #   adjusted_y = adjust_to_ratio(y)
-
-  #   Text.new(adjusted_x, adjusted_y, text, size, "./data/fonts/andersans.ttf", color)
-  # end
-
-  # def display_message(text)
-  #   build_text(175, 615, text, 20)
-  # end
-
   def freeze_game_for(seconds)
     @frozen_until = Time.now + seconds
-  end
-
-  # def display_thumbnail_for(source)
-  #   thumbnail_path = 
-  #     case source
-  #     when :character then @current_character_data[:image_path]
-  #     when :self then game_characters[:player][:image_path]
-  #     end
-    
-  #   screen.draw_dialogue_thumbnail(thumbnail_path)
-  # end
-
-  def play_sound(path)
-    sound = GameSound::Base.new(path)
-    sound.play && freeze_game_for(sound.duration)
   end
 
   def play_sfx(key)
     sfx = GameSound::Sfx.new(key)
     sfx.play && freeze_game_for(sfx.duration)
   end
-
-
 
 end

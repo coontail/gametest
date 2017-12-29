@@ -44,24 +44,6 @@ module Gameplay
     }
   end
 
-  def self.characters
-    {
-      # merchant: {
-      #   image_path: "./data/characters/merchant.png",
-      #   dialogue: :merchant,
-      #   description: :merchant
-      # },
-
-      # merchant_2: {
-      #   image_path: "./data/characters/merchant2.png"        
-      # },
-
-      # player: {
-      #   image_path: "./data/characters/player.png"
-      # }
-    }
-  end
-
   def self.sfx
     {
       clicking: {
@@ -88,6 +70,9 @@ module Gameplay
 
   def self.sentences
     {
+
+      ##### Merchant ####
+
       merchant_sentence_1: {
         source: :merchant
       },
@@ -114,58 +99,79 @@ module Gameplay
 
       merchant_sentence_7: {
         source: :merchant
-      }
+      },
 
-      # merchant_sentence_8: {
-      #   choice: :merchant_choices_1
-      # }
+      ## Merchant - Choices ##
+
+      merchant_sentence_with_choices_1: {
+        source: :merchant,
+        choices: [
+          :merchant_choice_1,
+          :merchant_choice_2,
+          :merchant_choice_3
+        ]
+      },
+
+      ## Merchant - Choice answers ##
+
+      merchant_choice_answer_1: {
+        source: :self
+      },
+
+      merchant_choice_answer_2: {
+        source: :self
+      },
+
+      merchant_choice_answer_3: {
+        source: :self
+      }
 
     }
   end
 
+  # A sentence can have multiple choices.
+  # Those choices are used to feed & replace current_sentences with more sentences.
+  # It's pretty much like dialogues, except choices are interactive.
+  # Position => Where the choice should be in the choice list
+  # Display_sentence => What sentence should be displayed. It is also added as the first sentence
+  # in the sentences list
+  def self.choices
+    {
+      merchant_choice_1: {
+        position: :choice_1,
+        display_sentence: :merchant_choice_answer_1,
 
-  # def self.choices
-  #   {
-  #     merchant_choices_1: {   
-  #       default_text: "Salut l'etranger, que fais-tu ici ?",
-  #       default_sound_path: "./data/dialogues/merchant/default.ogg",
+        sentences: [
+          :merchant_sentence_1,
+          :merchant_sentence_2,
+          :merchant_sentence_3,
+          :merchant_sentence_4,
+          :merchant_sentence_5
+        ]
+      },
 
-  #       choice_1: { 
-  #         choice_text: "Je ne sais pas trop, pour etre honnete...",
-  #         choice_sound_path: "./data/dialogues/merchant/choices/1_1.ogg",
+      merchant_choice_2: {
+        position: :choice_2,
+        display_sentence: :merchant_choice_answer_2,
 
-  #         sentences: [
-  #           :merchant_sentence_1,
-  #           :merchant_sentence_2,
-  #           :merchant_sentence_3,
-  #           :merchant_sentence_4,
-  #           :merchant_sentence_5
-  #         ]
-  #       },
+        sentences: [
+          :merchant_sentence_6
+        ]
+      },
 
-  #       choice_2: {
-  #         choice_text: "En quoi ca vous regarde ?",
-  #         choice_sound_path: "./data/dialogues/merchant/choices/1_2.ogg",            
+      merchant_choice_3: {
+        position: :choice_3,
+        display_sentence: :merchant_choice_answer_3,
 
-  #         sentences: [
-  #           :merchant_sentence_6,
-  #         ]
-  #       },
-
-  #       choice_3: {
-  #         choice_text: "Au revoir",
-  #         choice_sound_path: "./data/dialogues/merchant/choices/1_3.ogg",
-
-  #         sentences: [
-  #           :merchant_sentence_7
-  #         ]
-  #       }
-  #     }
-  #   }
-  # end
+        sentences: [
+          :merchant_sentence_7
+        ]
+      }
+    }
+  end
 
 
-
+  # Dialogues are characters base sentences
   def self.dialogues
     {
       # merchant: {
@@ -177,44 +183,14 @@ module Gameplay
           :merchant_sentence_4,
           :merchant_sentence_5,
           :merchant_sentence_7
-          # :merchant_sentence_8
         ]
         },
 
       merchant_2: {
         sentences: [
-          :merchant_sentence_4,
-          :merchant_sentence_5,
-          :merchant_sentence_7
-          # :merchant_sentence_8
+          :merchant_sentence_with_choices_1
         ]
       }
     }
   end
-
-  # def self.descriptions
-  #   {
-  #     merchant: {
-  #       text: "C'est un vieux marchand obese avec une veste de riche sur l'epaule",
-  #       sound_path: "./data/descriptions/merchant.ogg"
-  #     }
-  #   }
-  # end
-
-  def self.choices_coordinates
-    {
-      [[175, 665], [780, 685]] => {
-        choice: :choice_1
-      },
-
-      [[175, 690], [780, 720]] => {
-        choice: :choice_2
-      },
-      
-      [[175, 715], [780, 740]] => {
-        choice: :choice_3
-      }
-    }
-  end
-
 end

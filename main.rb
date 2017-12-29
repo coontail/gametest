@@ -53,7 +53,6 @@ on :mouse_down do |event|
     if (event = game.get_event)
       puts game.current_scene.image.path
       # clear # Clear stacked assets
-      puts game.current_scene.image.path
       # game.update_scene # Refresh assets
       game.apply_event(event) # Apply event
     end

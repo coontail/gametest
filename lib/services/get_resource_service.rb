@@ -30,7 +30,7 @@ class GetResourceService
   end
 
   def game_object_class_name
-    @options[:game_object_class_name] || @game_object.class.name
+    @options[:game_object_class_name] || @game_object.class.name.demodulize
   end
 
   # Resource class that should be init

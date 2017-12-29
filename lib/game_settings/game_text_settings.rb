@@ -42,6 +42,8 @@ module GameSettings
           y_position: 615
         }, 
 
+        ### Merchant ###
+        
         merchant_sentence_1: {
           body: "J'ai plein de marchandises a te proposer !"
         },
@@ -68,6 +70,26 @@ module GameSettings
 
         merchant_sentence_7: {
           body: "Salut l'ami !"
+        },
+        
+        # Merchant - Choices
+
+        merchant_sentence_with_choices_1: {
+          body: "Salut l'etranger, que fais-tu ici ?"
+        },
+
+        # Merchant - Choice answers
+
+        merchant_choice_answer_1: {
+          body: "Je ne sais pas trop, pour etre honnete..."
+        },
+
+        merchant_choice_answer_2: {
+          body: "En quoi ca vous regarde ?"
+        },
+
+        merchant_choice_answer_3: {
+          body: "Au revoir"
         }
       }
     end
@@ -81,6 +103,26 @@ module GameSettings
 
         merchant: {
           body: "C'est un vieux marchand obese avec une veste de riche sur l'epaule"
+        }
+      }
+    end
+
+    # choice_NUMBER is an abstract key used to set the choice sentence text position & hitbox
+    def self.choices
+      {
+        choice_1: {
+          x_position: 175,
+          y_position: 665
+        },
+
+        choice_2: {
+          x_position: 175,
+          y_position: 690
+        },
+
+        choice_3: {
+          x_position: 175,
+          y_position: 715
         }
       }
     end
