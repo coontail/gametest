@@ -5,36 +5,36 @@ class Game
   attr_reader :current_sentences
   attr_reader :current_scene
   attr_reader :current_choices
-  # attr_reader :current_scene_data
-  # attr_reader :current_music
-  # attr_reader :current_character
-  # attr_reader :current_character_data
-  # attr_reader :current_character_coordinates
-  # attr_reader :current_sound
-  # attr_reader :selected_menu_item
-  # attr_reader :current_dialogue
-  # attr_reader :current_dialogue_data
 
   def initialize(options={})
+    init_gameplay_variables
+    init_menu_items
+    init_music
+    
+    @frozen_until = Time.now
+
+    update_scene
+  end
+
+  def init_gameplay_variables
+    @current_character = nil
+    @current_choices = []
+    @current_sentences = []
+    @current_scene = GameObject::Scene.new(:scene_1)
+
+    @available_directions = []
+  end
+
+  def init_menu_items
     @current_menu_items = [:go_to, :look_at, :talk_to, :take, :give].map do |key|
       GameObject::MenuItem.new(key)
     end
 
-    @background_music = GameMusic::Base.new
-    @current_scene = GameObject::Scene.new(:scene_1)
-    @current_character = nil
-    @current_choices = []
-    @frozen_until = Time.now
-
-    @selected_menu_item = GameObject::Direction.new(:go_to)
-    @current_sentences = []
-    @directions = []
-
-    update_scene
-    play_music
+    @selected_menu_item = @current_menu_items.find { |i| i.key == :go_to }
   end
 
-  def play_music
+  def init_music
+    @background_music = GameMusic::Base.new
     @background_music.play
   end
 
@@ -47,8 +47,6 @@ class Game
     update_menu
   end
 
-  # private
-
   def update_music
     @background_music.update @current_scene.data[:music]
   end
@@ -58,42 +56,35 @@ class Game
   end
 
   def update_characters
-    key = @current_scene.data[:character]
-
-    if key
-      @current_character = GameObject::Character.new(key)
-      @current_character.image.draw
-    else
-      clear_character_info
-    end
-  end
-
-  def clear_character_info
-    @current_character = nil
-    @current_dialogue = nil
-    @current_dialogue_data = nil
+    @current_character = @current_scene.character
+    @current_character.image.draw if @current_character
   end
 
   def update_overlay
-    key = @current_scene.data[:overlay] || :main
-
-    @current_overlay = GameObject::Overlay.new(key)
-    @current_overlay.image.draw
+    @current_scene.overlay.image.draw
   end
 
   def update_menu
     @current_menu_items.each do |menu_item|
-      # Todo, gérer le statut "actif"
-      # color = (@current_action == v[:action] ? "black" : "white")
+      set_text_color_for menu_item
       menu_item.text.write
     end
   end
 
-  def draw_direction_arrows
-    scene_events = @current_scene.data[:events]
+  def set_text_color_for(menu_item)
+    if menu_item == @selected_menu_item
+      menu_item.text.color = 'black'
+    else
+      menu_item.text.color = 'white'
+    end
+  end
 
-    @directions = scene_events.keys.map { |key| GameObject::Direction.new(key) }
-    @directions.each { |direction| direction.image.draw }
+  def draw_direction_arrows
+    @available_directions = @current_scene.events.keys.map do |key| 
+      GameObject::Direction.new(key)
+    end
+
+    @available_directions.each { |direction| direction.image.draw }
   end
 
   def get_event
@@ -104,9 +95,9 @@ class Game
   end
 
   def get_map_event
-    #  TODO foutre une méthode events dans scene ?
-    map_events = @current_scene.data[:events]
-    concerned_directions = @directions.select { |direction| map_events.keys.include?(direction.key) }
+    concerned_directions = @available_directions.select do |direction| 
+      @current_scene.events.keys.include?(direction.key)
+    end
 
     touched_direction = concerned_directions.find do |direction|
       direction.hitbox.is_touched_by?(@mouse_x, @mouse_y)
@@ -143,7 +134,7 @@ class Game
 
   def get_character_event
     if @current_character && @current_character.hitbox.is_touched_by?(@mouse_x, @mouse_y)
-      { type: :character, key: @current_character.key }
+      { type: :character, object: @current_character }
     end
   end
 
@@ -151,7 +142,6 @@ class Game
 
     if event[:type] == :menu
       @selected_menu_item = event[:object]
-      # update_menu
     end
 
     if event[:type] == :choice
@@ -171,24 +161,12 @@ class Game
         play_sfx(:clicking)
       end
 
-
     when [:character, :talk_to]
       update_dialogues
     
     when [:character, :look_at]
-      update_description(@current_character)
+      update_description(event[:object])
     end
-  end
-
-  def apply_choice(choice)
-    choices_key = @current_dialogue_data[:choices]
-    choice_data = game_choices[choices_key][choice]
-
-    display_message(choice_data[:choice_text])
-    display_thumbnail_for(:self)
-    play_sound(choice_data[:choice_sound_path])
-
-    @current_sentences = choice_data[:sentences].dup
   end
 
   def update_description(object)
@@ -203,8 +181,6 @@ class Game
   ## Update sentences est géré par le main because gestion du timing etc etc 
   ## Renommer classe et sentences par dialogue_sentences pour éviter la confusion?
   def update_sentences
-    ## ma mission si je l'accepte : Faire en sorte que le bon thumbnail s'affiche, et que les dialogues se lancent les uns après les autres
-
     @current_sentences[0].tap do |sentence|
       sentence.image.draw
       sentence.text.write
@@ -224,13 +200,6 @@ class Game
 
   def update_dialogues
     if @current_character
-        # @current_dialogue = @current_character #???
-        # @current_dialogue_data = @current_character.dialogue #game_dialogues[@current_dialogue]
-
-        # if @current_dialogue_data
-    
-        #   if @current_dialogue_data[:choices]
-        #     update_choices
       sentences = @current_character.dialogue.sentences
 
       if sentences 

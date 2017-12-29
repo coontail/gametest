@@ -9,12 +9,12 @@ require "awesome_print"
 
 require_all "./lib/**/*.rb"
 
+# Screen sizes cheatsheet
 # 840x630 = cool
 # 1280x960 = cool
 
 set title: "Jeu de test"
 set width: 1280, height: 960
-# set fullscreen: true
 
 $screen = Screen.new(
   width: get(:width),
@@ -36,8 +36,6 @@ update do
     game.update_sentences
   end
 
-  # puts "#{game.current_sentences} #{game.current_character} #{game.current_dialogue} #{game.current_dialogue_data}"
-
 end
 
 on :mouse_down do |event|
@@ -47,18 +45,14 @@ on :mouse_down do |event|
     game.mouse_x = event.x
     game.mouse_y = event.y
 
-    clear
-    game.update_scene
-
     if (event = game.get_event)
       puts game.current_scene.image.path
-      # clear # Clear stacked assets
-      # game.update_scene # Refresh assets
+      clear # Clear stacked assets
       game.apply_event(event) # Apply event
+      game.update_scene # Refresh assets
     end
 
   end
 end
-
 
 show
