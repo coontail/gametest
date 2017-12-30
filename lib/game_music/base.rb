@@ -10,7 +10,6 @@ module GameMusic
     end
 
     def update(new_key)
-      puts "testo"
       new_key ||= DEFAULT_MUSIC_KEY
       music_changed = @key != new_key
       
@@ -21,7 +20,6 @@ module GameMusic
     end
 
     def play
-      puts "PLAY"
       music.tap do |m|
         m.loop = true
         m.play

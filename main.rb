@@ -31,9 +31,10 @@ update do
   # y = get(:mouse_y)
   # @cursor = game.draw_image(x, y, path)
 
-  if Time.now >= game.frozen_until && game.current_sentences.any?
+  if Time.now >= game.frozen_until && (game.current_sentences.any? || game.current_description)
     game.update_scene
-    game.update_sentences
+    game.update_sentences if game.current_sentences.any?
+    game.update_description if game.current_description
   end
 
 end
@@ -46,7 +47,6 @@ on :mouse_down do |event|
     game.mouse_y = event.y
 
     if (event = game.get_event)
-      puts game.current_scene.image.path
       clear # Clear stacked assets
       game.apply_event(event) # Apply event
       game.update_scene # Refresh assets

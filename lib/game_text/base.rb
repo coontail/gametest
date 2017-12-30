@@ -16,7 +16,7 @@ module GameText
     end
 
     def write
-      Text.new(settings)
+      Text.new(settings) if valid?
     end
 
     %w(x_position y_position).each do |attribute|
@@ -24,6 +24,10 @@ module GameText
     end
 
     private
+
+    def valid?
+      !@body.nil?
+    end
 
     def settings
       {

@@ -1,4 +1,6 @@
 module Gameplay
+
+  #  Changer en "gameplay settings" maybe ?
   
   GAME_WIDTH = 1024.freeze
 

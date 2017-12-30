@@ -14,7 +14,7 @@ module GameImage
     end
 
     def draw
-      image && resize_image
+      (image && resize_image) if valid?
     end
 
     %w(width height).each do |attribute|
@@ -28,6 +28,11 @@ module GameImage
     end
 
     private
+
+    # TODO réfléchir à mes conditions de validité, où les foutre et tout ça
+    def valid?
+      !@path.nil?
+    end
 
     def image
       # ||= impossible since Image.new DRAWS the picture

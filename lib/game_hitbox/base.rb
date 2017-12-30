@@ -12,10 +12,18 @@ module GameHitbox
     end
 
     def is_touched_by?(pointer_x, pointer_y)
+      return false unless valid?
+
       pointer_x >= adjust_to_ratio(x1_position) &&
       pointer_x <= adjust_to_ratio(x2_position) &&
       pointer_y >= adjust_to_ratio(y1_position) &&
       pointer_y <= adjust_to_ratio(y2_position) 
+    end
+
+    private
+
+    def valid?
+      [x1_position, x2_position, y1_position, y2_position].all?
     end
 
   end

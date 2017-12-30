@@ -3,21 +3,23 @@ class Game
   attr_accessor :mouse_x, :mouse_y, :frozen_until
 
   attr_reader :current_sentences
+  attr_reader :current_description
   attr_reader :current_scene
   attr_reader :current_choices
 
   def initialize(options={})
+    @frozen_until = Time.now
+
     init_gameplay_variables
     init_menu_items
     init_music
     
-    @frozen_until = Time.now
-
     update_scene
   end
 
   def init_gameplay_variables
     @current_character = nil
+    @current_description = nil
     @current_choices = []
     @current_sentences = []
     @current_scene = GameObject::Scene.new(:scene_1)
@@ -104,7 +106,6 @@ class Game
     end
 
     if touched_direction
-      puts touched_direction.key
       { type: :direction, object: touched_direction }
     end
   end
@@ -115,7 +116,6 @@ class Game
     end
 
     if touched_menu_item
-      puts touched_menu_item.key
       { type: :menu, object: touched_menu_item }
     end
   end
@@ -165,16 +165,22 @@ class Game
       update_dialogues
     
     when [:character, :look_at]
-      update_description(event[:object])
+      # Une idée comme ça
+      @current_description = event[:object].description
     end
   end
 
-  def update_description(object)
-    if object.description # Tester sur merchant2, des soucis
-      object.description.image.draw
-      object.description.text.write
-      object.description.sound.play
-      freeze_game_for(object.description.sound.duration)
+  def update_description
+    # Merger current_sentences et description pourrait être une bonne idée au final.
+    if @current_description # Tester sur merchant2, des soucis
+      @current_description.tap do |description|
+        description.image.draw
+        description.text.write
+        description.sound.play
+        freeze_game_for(description.sound.duration)
+      end
+
+      @current_description = nil
     end
   end
 
