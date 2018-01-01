@@ -6,12 +6,12 @@ class GameObject::Dialogue < GameObject::Base
     end
   end
 
-  # def choice
-  #   choice_key = data[:choices]
+  def choice
+    choice_key = data[:choices]
     
-  #   if choice_key
-  #     GameObject::Choice.new(choice_key)
-  #   end
-  # end
+    if choice_key
+      GameObject::Choice.new(choice_key)
+    end
+  end
 
 end

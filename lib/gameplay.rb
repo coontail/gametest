@@ -39,7 +39,42 @@ module Gameplay
       scene_5: {
         character: :merchant_2,
         events: {
+          left: { end_scene: :scene_8 },
+          right: { end_scene: :scene_6 },
           back: { end_scene: :scene_4 }
+        }
+      },
+
+      scene_6: {
+        events: {
+          left: { end_scene: :scene_5 },
+          forward: { end_scene: :scene_7 }
+        }
+      },
+
+      scene_7: {
+        character: :old_lady,
+        events: {
+          back: { end_scene: :scene_6 }
+        }
+      },
+
+      scene_8: {
+        events: {
+          right: { end_scene: :scene_5 },
+          forward: { end_scene: :scene_9 }
+        }
+      },
+
+      scene_9: {
+        events: {
+          forward: { end_scene: :scene_10 }
+        }
+      },
+
+      scene_10: {
+        events: {
+          forward: { end_scene: :scene_1 }
         }
       }
 

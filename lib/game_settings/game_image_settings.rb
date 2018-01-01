@@ -22,6 +22,10 @@ module GameSettings
 
         merchant_2: {
           image_path: "./data/characters/merchant2.png"        
+        },
+
+        old_lady: {
+          image_path: "./data/characters/old_lady.png"        
         }
       }
     end
@@ -87,7 +91,28 @@ module GameSettings
 
         scene_5: {
           image_path: "./data/images/scenes/5.png"
+        },
+
+        scene_6: {
+          image_path: "./data/images/scenes/6.png"
+        },
+
+        scene_7: {
+          image_path: "./data/images/scenes/7.png"
+        },
+
+        scene_8: {
+          image_path: "./data/images/scenes/8.png"
+        },
+
+        scene_9: {
+          image_path: "./data/images/scenes/9.png"
+        },
+
+        scene_10: {
+          image_path: "./data/images/scenes/10.png"
         }
+
       }
     end
 

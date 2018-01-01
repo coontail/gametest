@@ -12,7 +12,7 @@ module GameMusic
     def update(new_key)
       new_key ||= DEFAULT_MUSIC_KEY
       music_changed = @key != new_key
-      
+      puts "MUSIC CHANGED #{music_changed}"
       if music_changed
         @key = new_key
         play

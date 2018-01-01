@@ -103,6 +103,10 @@ module GameSettings
 
         merchant: {
           body: "C'est un vieux marchand obese avec une veste de riche sur l'epaule"
+        },
+
+        old_lady: {
+          body: "C'est une senior odorante dont le sourire n'est pas sans rappeller une saucisse cocktail"
         }
       }
     end

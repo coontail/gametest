@@ -5,7 +5,7 @@ module GameSettings
       {
 
         ### Merchant ###
-        
+
         merchant_sentence_1: {
           sound_path: "./data/dialogues/merchant/sentences/1.ogg"
         },
@@ -61,6 +61,10 @@ module GameSettings
       {
         merchant: {
           sound_path: "./data/descriptions/merchant.ogg"
+        },
+
+        old_lady: {
+          sound_path: "./data/descriptions/old_lady.ogg"
         }
       }
     end

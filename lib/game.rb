@@ -206,13 +206,8 @@ class Game
 
   def update_dialogues
     if @current_character
-      sentences = @current_character.dialogue.sentences
-
-      if sentences 
-        @current_sentences = sentences
-      else
-        play_sfx(:cough)
-      end
+      @current_sentences = @current_character.dialogue.sentences
+      play_sfx(:cough) unless @current_sentences.any?        
     end
   end
 

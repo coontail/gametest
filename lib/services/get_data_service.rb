@@ -10,7 +10,7 @@ class GetDataService < GetResourceService
     
   def get_data
     if Gameplay.respond_to?(storage_method)
-      Gameplay.send(storage_method)[@game_object.key]
+      Gameplay.send(storage_method)[@game_object.key] || {}
     else
       {}
     end
