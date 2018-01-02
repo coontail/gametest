@@ -6,6 +6,10 @@ class GameObject::Sentence < GameObject::Base
     end
   end
 
+  def given_item
+    data[:given_item]
+  end
+
   def image_options
     { identifier_method: :source }
   end

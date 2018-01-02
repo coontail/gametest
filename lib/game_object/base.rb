@@ -2,9 +2,11 @@ module GameObject
   class Base
 
     attr_reader :key
+    attr_reader :dynamic_key
 
-    def initialize(key)
+    def initialize(key, dynamic_key: nil)
       @key = key
+      @dynamic_key = dynamic_key
     end
 
     def data

@@ -2,7 +2,15 @@
 :game_settings:
   :sound:
     :descriptions:
+
+# Characters
+
       :merchant:
         :sound_path: "./data/descriptions/merchant.ogg"
       :old_lady:
         :sound_path: "./data/descriptions/old_lady.ogg"
+
+# Items
+      
+      :tissues:
+        :sound_path: "./data/descriptions/tissues_1.ogg"      

@@ -2,6 +2,9 @@
 :game_settings:
   :data:
     :sentences:
+
+      #### MERCHANT ####
+      
       :merchant_sentence_1:
         :source: :merchant
       :merchant_sentence_2:
@@ -10,18 +13,21 @@
         :source: :merchant
       :merchant_sentence_4:
         :source: :merchant
+        :given_item: :tissues
       :merchant_sentence_5:
         :source: :self
       :merchant_sentence_6:
         :source: :merchant
       :merchant_sentence_7:
         :source: :merchant
+      
       :merchant_sentence_with_choices_1:
         :source: :merchant
         :choices:
         - :merchant_choice_1
         - :merchant_choice_2
         - :merchant_choice_3
+
       :merchant_choice_answer_1:
         :source: :self
       :merchant_choice_answer_2:

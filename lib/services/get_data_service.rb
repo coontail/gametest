@@ -10,7 +10,7 @@ class GetDataService < GetResourceService
   private
     
   def get_data
-    $settings.get_deep(:game_settings, settings_resource_key, settings_class_key, @game_object.key) || {}
+    $settings.get_deep(:game_settings, resource_key, class_key, object_key) || {}
   end
 
 end

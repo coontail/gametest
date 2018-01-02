@@ -1,0 +1,22 @@
+# Dynamic keys (dynamics) are set directly in gameobject class or its parent
+---
+:game_settings:
+  :image:
+    :inventory_items:
+      :defaults: 
+        :width:  125
+        :height: 100
+        :x_position: 850
+
+      :dynamics:
+        :item_1:
+          :y_position: 30
+        :item_2:
+          :y_position: 170
+        :item_3:
+          :y_position: 310
+        :item_4:
+          :y_position: 450
+
+      :tissues:
+        :image_path: "./data/items/tissues.png"

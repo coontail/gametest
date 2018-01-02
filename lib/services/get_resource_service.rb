@@ -1,58 +1,46 @@
 class GetResourceService
-  # À refacto, since c'est la classe un peu centrale a tout
+
+  include Representable
   
   def initialize(game_object, options={})
     @game_object = game_object
     @options = options
   end
 
-  ######### Move that in a module plz vvv#########
-  ############# Macro definition #################
-  
-  class << self
-    attr_accessor :represented_resource
-
-    def representing_resource(resource_name)
-      @represented_resource = resource_name
-    end
-  end
-
-  def represented_resource
-    self.class.represented_resource
-  end
-
-  ############################################
-
   private
-
-  def resource_class_name
-    @options[:resource_class_name] || "Game#{represented_resource.capitalize}"
-  end
+  
+  ########### Identifiers #############
 
   def identifier_method
     @options[:identifier_method] || :key
   end
 
-  def identifier
+  def object_key
     @game_object.send(identifier_method)
+  end
+
+  ########### Dynamic identifiers ###########
+
+  def dynamic_identifier_method
+    @options[:dynamic_identifier_method] || :dynamic_key
+  end
+
+  def dynamic_key
+    @game_object.send(dynamic_identifier_method)
+  end
+
+  ########### Class names ###########
+
+  def resource_class_name
+    @options[:resource_class_name] || "Game#{represented_resource.capitalize}"
   end
 
   def game_object_class_name
     @options[:game_object_class_name] || @game_object.class.name.demodulize
   end
 
-  # Resource class that should be init
   def custom_class
     @options[:custom_class] || "#{resource_class_name}::#{game_object_class_name}"
-  end
-
-  # Settings path config
-  def settings_class_key
-    @options[:settings_class_key] || "#{game_object_class_name.demodulize.underscore}s".to_sym
-  end
-
-  def settings_resource_key
-    @options[:settings_resource_key] || represented_resource
   end
 
   def resource_class
@@ -63,8 +51,23 @@ class GetResourceService
     end
   end
 
+  ########### Settings ###########
+
+  def class_key
+    @options[:class_key] || "#{game_object_class_name.demodulize.underscore}s".to_sym
+  end
+
+  def resource_key
+    @options[:resource_key] || represented_resource
+  end
+
   def settings
-    @settings ||= GetSettingsService.new(settings_resource_key, settings_class_key, identifier).call
+    @settings ||= GetSettingsService.new(
+      resource_key: resource_key, 
+      class_key:    class_key, 
+      dynamic_key:  dynamic_key, 
+      object_key:   object_key
+    ).call
   end
 
 end

@@ -6,12 +6,14 @@ class Game
   attr_reader :current_description
   attr_reader :current_scene
   attr_reader :current_choices
+  attr_reader :inventory
 
   def initialize(options={})
     @frozen_until = Time.now
 
     init_gameplay_variables
     init_menu_items
+    init_inventory
     
     update_scene
   end
@@ -24,6 +26,10 @@ class Game
     @current_scene = GameObject::Scene.new(:scene_1)
 
     @available_directions = []
+  end
+
+  def init_inventory
+    @inventory = GameObject::Inventory.new
   end
 
   def init_menu_items
@@ -40,7 +46,8 @@ class Game
     update_characters
     draw_direction_arrows
     update_overlay
-    update_menu
+    update_menu_items
+    update_inventory_items
   end
 
   def update_music
@@ -63,19 +70,18 @@ class Game
     @current_scene.overlay.image.draw
   end
 
-  def update_menu
+  def update_menu_items
     @current_menu_items.each do |menu_item|
-      set_text_color_for menu_item
+      item_color = (menu_item == @selected_menu_item) ? 'black' : 'white'
+      
+      menu_item.text.color = item_color
       menu_item.text.write
     end
   end
 
-  def set_text_color_for(menu_item)
-    if menu_item == @selected_menu_item
-      menu_item.text.color = 'black'
-    else
-      menu_item.text.color = 'white'
-    end
+  def update_inventory_items
+    puts @inventory.items.inspect
+    @inventory.items.each { |inventory_item| inventory_item.image.draw }
   end
 
   def draw_direction_arrows
@@ -87,6 +93,7 @@ class Game
   end
 
   def get_event
+    get_inventory_event ||
     get_menu_event || 
     get_choice_event ||
     get_map_event || 
@@ -114,6 +121,16 @@ class Game
 
     if touched_menu_item
       { type: :menu, object: touched_menu_item }
+    end
+  end
+
+  def get_inventory_event
+    touched_inventory_item = @inventory.items.find do |inventory_item|
+      inventory_item.hitbox.is_touched_by?(@mouse_x, @mouse_y)
+    end
+
+    if touched_inventory_item
+      { type: :inventory, object: touched_inventory_item }
     end
   end
 
@@ -158,9 +175,13 @@ class Game
         play_sfx(:clicking)
       end
 
+      
     when [:character, :talk_to]
       update_dialogues
-    
+
+    when [:inventory, :look_at]
+      @current_description = event[:object].description
+
     when [:character, :look_at]
       # Une idée comme ça
       @current_description = event[:object].description
