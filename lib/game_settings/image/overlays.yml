@@ -1,0 +1,8 @@
+---
+:game_settings:
+  :image:
+    :overlays:
+      :defaults:
+        :full_screen: true
+      :main:
+        :image_path: "./data/images/assets/background.png"

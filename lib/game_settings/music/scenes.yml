@@ -1,0 +1,6 @@
+---
+:game_settings:
+  :music:
+    :scenes:
+      :defaults:
+        :music_path: "./data/musics/music_1.ogg"

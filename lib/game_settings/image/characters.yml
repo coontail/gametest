@@ -1,0 +1,15 @@
+---
+:game_settings:
+  :image:
+    :characters:
+      :defaults:
+        :x_position: 200
+        :y_position: 150
+        :width: 300
+        :height: 450
+      :merchant:
+        :image_path: "./data/characters/merchant.png"
+      :merchant_2:
+        :image_path: "./data/characters/merchant2.png"
+      :old_lady:
+        :image_path: "./data/characters/old_lady.png"

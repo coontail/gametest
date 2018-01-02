@@ -1,0 +1,13 @@
+---
+:game_settings:
+  :text:
+    :choices:
+      :choice_1:
+        :x_position: 175
+        :y_position: 665
+      :choice_2:
+        :x_position: 175
+        :y_position: 690
+      :choice_3:
+        :x_position: 175
+        :y_position: 715
