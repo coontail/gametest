@@ -1,5 +1,9 @@
 class GameObject::Description < GameObject::Base
-end
 
-# TODO => Cessons de nous mentir, les descriptions sont des dialogues.
-#  Les réécrire comme les objects dialogues.
+  def sentences
+    (data[:sentences] || []).map do |sentence_key|
+      GameObject::Sentence.new(sentence_key)
+    end
+  end
+
+end

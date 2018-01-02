@@ -3,7 +3,7 @@
   :data:
     :sentences:
 
-      #### MERCHANT ####
+#### MERCHANT ####
       
       :merchant_sentence_1:
         :source: :merchant
@@ -33,4 +33,16 @@
       :merchant_choice_answer_2:
         :source: :self
       :merchant_choice_answer_3:
+        :source: :self
+
+############## DESCRIPTIONS ##############
+      :merchant_description:
+        :source: :self
+
+      :old_lady_description:
+        :source: :self
+
+      :tissues_description_1:
+        :source: :self
+      :tissues_description_2:
         :source: :self

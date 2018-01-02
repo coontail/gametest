@@ -24,3 +24,19 @@
         :sound_path: "./data/dialogues/merchant/choices/1_2.ogg"
       :merchant_choice_answer_3:
         :sound_path: "./data/dialogues/merchant/choices/1_3.ogg"
+
+############## DESCRIPTIONS #######################
+
+# Characters
+
+      :merchant_description:
+        :sound_path: "./data/descriptions/merchant.ogg"
+      :old_lady_description:
+        :sound_path: "./data/descriptions/old_lady.ogg"
+
+# Items
+      
+      :tissues_description_1:
+        :sound_path: "./data/descriptions/tissues_1.ogg"
+      :tissues_description_2:
+        :sound_path: "./data/descriptions/tissues_2.ogg"      

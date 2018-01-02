@@ -1,0 +1,17 @@
+---
+:game_settings:
+  :data:
+    :descriptions:
+
+      :tissues:
+        :sentences:
+        - :tissues_description_1
+        - :tissues_description_2
+      
+      :merchant:
+        :sentences:
+        - :merchant_description
+
+      :old_lady:
+        :sentences:
+        - :old_lady_description

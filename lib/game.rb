@@ -3,7 +3,6 @@ class Game
   attr_accessor :mouse_x, :mouse_y, :frozen_until
 
   attr_reader :current_sentences
-  attr_reader :current_description
   attr_reader :current_scene
   attr_reader :current_choices
   attr_reader :inventory
@@ -20,7 +19,6 @@ class Game
 
   def init_gameplay_variables
     @current_character = nil
-    @current_description = nil
     @current_choices = []
     @current_sentences = []
     @current_scene = GameObject::Scene.new(:scene_1)
@@ -80,7 +78,6 @@ class Game
   end
 
   def update_inventory_items
-    puts @inventory.items.inspect
     @inventory.items.each { |inventory_item| inventory_item.image.draw }
   end
 
@@ -180,25 +177,9 @@ class Game
       update_dialogues
 
     when [:inventory, :look_at]
-      @current_description = event[:object].description
-
+      @current_sentences = event[:object].description.sentences
     when [:character, :look_at]
-      # Une idée comme ça
-      @current_description = event[:object].description
-    end
-  end
-
-  def update_description
-    # Merger current_sentences et description pourrait être une bonne idée au final.
-    if @current_description # Tester sur merchant2, des soucis
-      @current_description.tap do |description|
-        description.image.draw
-        description.text.write
-        description.sound.play
-        freeze_game_for(description.sound.duration)
-      end
-
-      @current_description = nil
+      @current_sentences = event[:object].description.sentences
     end
   end
 

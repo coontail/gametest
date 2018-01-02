@@ -27,3 +27,19 @@
         :body: En quoi ca vous regarde ?
       :merchant_choice_answer_3:
         :body: Au revoir
+
+
+############ DESCRIPTIONS ##############
+      
+      :merchant_description:
+        :body: C'est un vieux marchand obese avec une veste de riche sur l'epaule
+
+      :old_lady_description:
+        :body: C'est une senior odorante dont le sourire n'est pas sans rappeller
+          une saucisse cocktail
+      
+      :tissues_description_1:
+        :body: Il s'agit d'un paquet de mouchoirs blancs de marque "Royale"
+      
+      :tissues_description_2:
+        :body: C'est le genre dont vous vous serviriez pour vous essuyer la bite, si vous etiez pauvre

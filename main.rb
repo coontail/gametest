@@ -40,7 +40,7 @@ update do
   # y = get(:mouse_y)
   # @cursor = game.draw_image(x, y, path)
 
-  if Time.now >= game.frozen_until && (game.current_sentences.any? || game.current_description)
+  if Time.now >= game.frozen_until && game.current_sentences.any?
 
     if game.current_sentences.any? && game.current_sentences.first.given_item
       game.inventory.add game.current_sentences.first.given_item
@@ -48,7 +48,6 @@ update do
 
     game.update_scene
     game.update_sentences if game.current_sentences.any?
-    game.update_description if game.current_description
   end
 
 end
