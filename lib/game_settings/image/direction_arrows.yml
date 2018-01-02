@@ -1,0 +1,23 @@
+---
+:game_settings:
+  :image:
+    :direction_arrows:
+      :defaults:
+        :width: 32
+        :height: 32
+      :left:
+        :x_position: 10
+        :y_position: 265
+        :image_path: "./data/images/sprites/left_arrow.png"
+      :right:
+        :x_position: 755
+        :y_position: 265
+        :image_path: "./data/images/sprites/right_arrow.png"
+      :forward:
+        :x_position: 380
+        :y_position: 270
+        :image_path: "./data/images/sprites/up_arrow.png"
+      :back:
+        :x_position: 380
+        :y_position: 530
+        :image_path: "./data/images/sprites/down_arrow.png"

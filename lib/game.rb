@@ -3,28 +3,35 @@ class Game
   attr_accessor :mouse_x, :mouse_y, :frozen_until
 
   attr_reader :current_sentences
-  attr_reader :current_description
   attr_reader :current_scene
   attr_reader :current_choices
+  attr_reader :inventory
+  attr_reader :selected_menu_item
 
   def initialize(options={})
     @frozen_until = Time.now
 
     init_gameplay_variables
     init_menu_items
-    init_music
+    init_inventory
     
     update_scene
   end
 
   def init_gameplay_variables
     @current_character = nil
-    @current_description = nil
     @current_choices = []
     @current_sentences = []
     @current_scene = GameObject::Scene.new(:scene_1)
 
     @available_directions = []
+  end
+
+  def init_inventory
+    @inventory = GameObject::Inventory.new
+
+    default_item_keys = [:audio_cassette]
+    default_item_keys.each { |item_key| @inventory.add item_key }
   end
 
   def init_menu_items
@@ -35,22 +42,37 @@ class Game
     @selected_menu_item = @current_menu_items.find { |i| i.key == :go_to }
   end
 
-  def init_music
-    @background_music = GameMusic::Base.new
-    @background_music.play
-  end
-
   def update_scene
     update_music
     update_scene_image
     update_characters
     draw_direction_arrows
     update_overlay
-    update_menu
+    update_menu_items
+    update_inventory_items
+
+    # x = {
+    #   update_music: bench(update_music),
+    #   update_scene_image: bench(update_scene_image),
+    #   update_characters: bench(update_characters),
+    #   draw_direction_arrows: bench(draw_direction_arrows),
+    #   update_overlay: bench(update_overlay),
+    #   update_menu_items: bench(update_menu_items),
+    #   update_inventory_items: bench(update_inventory_items),
+    # }
+
+    # ap x
+  end
+
+  def bench(x)
+    Benchmark.measure{ x }.real
   end
 
   def update_music
-    @background_music.update @current_scene.data[:music]
+    unless @current_scene.music.is_similar_to? @background_music
+      @background_music = @current_scene.music
+      @background_music.play
+    end
   end
 
   def update_scene_image
@@ -66,19 +88,17 @@ class Game
     @current_scene.overlay.image.draw
   end
 
-  def update_menu
+  def update_menu_items
     @current_menu_items.each do |menu_item|
-      set_text_color_for menu_item
+      item_color = (menu_item == @selected_menu_item) ? 'black' : 'white'
+      
+      menu_item.text.color = item_color
       menu_item.text.write
     end
   end
 
-  def set_text_color_for(menu_item)
-    if menu_item == @selected_menu_item
-      menu_item.text.color = 'black'
-    else
-      menu_item.text.color = 'white'
-    end
+  def update_inventory_items
+    @inventory.items.each { |inventory_item| inventory_item.image.draw }
   end
 
   def draw_direction_arrows
@@ -90,6 +110,17 @@ class Game
   end
 
   def get_event
+    # x = {
+    #   get_inventory_event: bench(get_inventory_event),
+    #   get_menu_event: bench(get_menu_event),
+    #   get_choice_event: bench(get_choice_event),
+    #   get_map_event: bench(get_map_event),
+    #   get_character_event: bench(get_character_event)
+    # }
+
+    # ap x
+
+    get_inventory_event ||
     get_menu_event || 
     get_choice_event ||
     get_map_event || 
@@ -117,6 +148,16 @@ class Game
 
     if touched_menu_item
       { type: :menu, object: touched_menu_item }
+    end
+  end
+
+  def get_inventory_event
+    touched_inventory_item = @inventory.items.find do |inventory_item|
+      inventory_item.hitbox.is_touched_by?(@mouse_x, @mouse_y)
+    end
+
+    if touched_inventory_item
+      { type: :inventory, object: touched_inventory_item }
     end
   end
 
@@ -161,26 +202,14 @@ class Game
         play_sfx(:clicking)
       end
 
+      
     when [:character, :talk_to]
       update_dialogues
-    
+
+    when [:inventory, :look_at]
+      @current_sentences = event[:object].description.sentences
     when [:character, :look_at]
-      # Une idée comme ça
-      @current_description = event[:object].description
-    end
-  end
-
-  def update_description
-    # Merger current_sentences et description pourrait être une bonne idée au final.
-    if @current_description # Tester sur merchant2, des soucis
-      @current_description.tap do |description|
-        description.image.draw
-        description.text.write
-        description.sound.play
-        freeze_game_for(description.sound.duration)
-      end
-
-      @current_description = nil
+      @current_sentences = event[:object].description.sentences
     end
   end
 
@@ -192,6 +221,10 @@ class Game
       sentence.text.write
       sentence.sound.play
       freeze_game_for(sentence.sound.duration)
+
+      if sentence.given_item
+        @inventory.add sentence.given_item
+      end
 
       if sentence.choices.any?
         @current_sentences = []

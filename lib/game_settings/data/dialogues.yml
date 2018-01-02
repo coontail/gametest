@@ -1,0 +1,8 @@
+---
+:game_settings:
+  :data:
+    :dialogues:
+
+      :merchant:
+        :sentences:
+        - :merchant_sentence_with_choices_1

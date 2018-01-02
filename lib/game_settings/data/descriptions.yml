@@ -1,0 +1,23 @@
+---
+:game_settings:
+  :data:
+    :descriptions:
+
+      :tissues:
+        :sentences:
+        - :tissues_description_1
+        - :tissues_description_2
+      
+      :audio_cassette:
+        :sentences:
+        - :audio_cassette_description_1
+        - :audio_cassette_description_2
+        - :audio_cassette_description_3
+
+      :merchant:
+        :sentences:
+        - :merchant_description
+
+      :old_lady:
+        :sentences:
+        - :old_lady_description

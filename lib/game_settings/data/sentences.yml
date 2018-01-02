@@ -1,0 +1,85 @@
+---
+:game_settings:
+  :data:
+    :sentences:
+
+#### MERCHANT ####
+      
+      :merchant_sentence_1:
+        :thumbnail: :merchant
+      :merchant_sentence_2:
+        :thumbnail: :self
+      :merchant_sentence_3:
+        :thumbnail: :merchant
+      :merchant_sentence_4:
+        :thumbnail: :merchant
+      :merchant_sentence_5:
+        :thumbnail: :self
+      :merchant_sentence_6:
+        :thumbnail: :merchant
+      :merchant_sentence_7:
+        :thumbnail: :merchant
+      :merchant_sentence_8:
+        :thumbnail: :merchant
+      :merchant_sentence_9:
+        :thumbnail: :merchant
+        :given_item: :tissues
+      :merchant_sentence_10:
+        :thumbnail: :merchant
+      :merchant_sentence_11:
+        :thumbnail: :merchant
+      :merchant_sentence_12:
+        :thumbnail: :merchant
+      :merchant_sentence_13:
+        :thumbnail: :merchant
+      :merchant_sentence_14:
+        :thumbnail: :self
+      :merchant_sentence_15:
+        :thumbnail: :self
+      :merchant_sentence_16:
+        :thumbnail: :merchant
+      :merchant_sentence_17:
+        :thumbnail: :merchant
+      :merchant_sentence_18:
+        :thumbnail: :merchant
+      :merchant_sentence_19:
+        :thumbnail: :merchant
+      :merchant_sentence_20:
+        :thumbnail: :merchant
+      
+      :merchant_sentence_with_choices_1:
+        :thumbnail: :merchant
+        :choices:
+        - :merchant_choice_1
+        - :merchant_choice_2
+        - :merchant_choice_3
+        - :merchant_choice_4
+
+      :merchant_choice_answer_1:
+        :thumbnail: :self
+      :merchant_choice_answer_2:
+        :thumbnail: :self
+      :merchant_choice_answer_3:
+        :thumbnail: :self
+      :merchant_choice_answer_4:
+        :thumbnail: :self
+
+############## DESCRIPTIONS ##############
+      :merchant_description:
+        :thumbnail: :self
+
+      :old_lady_description:
+        :thumbnail: :self
+
+      :tissues_description_1:
+        :thumbnail: :self
+      :tissues_description_2:
+        :thumbnail: :self
+
+      :audio_cassette_description_1:
+        :thumbnail: :self
+      :audio_cassette_description_2:
+        :thumbnail: :self
+      :audio_cassette_description_3:
+        :thumbnail: :self
+

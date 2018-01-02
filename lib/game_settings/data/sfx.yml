@@ -1,0 +1,8 @@
+---
+:game_settings:
+  :data:
+    :sfx:
+      :clicking:
+        :sound_path: "./data/sfx/click.wav"
+      :cough:
+        :sound_path: "./data/sfx/cough.wav"

@@ -1,10 +1,13 @@
+#TODO : documenter l'utilisation de dynamic_key
 module GameObject
   class Base
 
     attr_reader :key
+    attr_reader :dynamic_key
 
-    def initialize(key)
+    def initialize(key, dynamic_key: nil)
       @key = key
+      @dynamic_key = dynamic_key
     end
 
     def data
@@ -27,7 +30,11 @@ module GameObject
       @sound ||= GetSoundService.new(self, sound_options).call
     end
 
-    %w(data image hitbox text sound).each do |method_name|
+    def music
+      @music ||= GetMusicService.new(self, music_options).call
+    end
+
+    %w(data image hitbox text sound music).each do |method_name|
       define_method("#{method_name}_options") { {} }
     end
 

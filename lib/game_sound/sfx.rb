@@ -6,8 +6,9 @@ class GameSound::Sfx < GameSound::Base
   
   private
 
+  # À bouger....
   def game_sfxs
-    @game_sfxs ||= Gameplay.sfx
+    @game_sfxs ||= $settings[:game_settings][:data][:sfx]
   end
 
 end

@@ -1,0 +1,75 @@
+---
+:game_settings:
+  :data:
+    :scenes:
+
+      :scene_1:
+        :events:
+          :left:
+            :end_scene: :scene_3
+          :right:
+            :end_scene: :scene_2
+
+      :scene_2:
+        :character: :merchant
+        :events:
+          :left:
+            :end_scene: :scene_1
+          :right:
+            :end_scene: :scene_3
+
+      :scene_3:
+        :events:
+          :left:
+            :end_scene: :scene_2
+          :right:
+            :end_scene: :scene_1
+          :forward:
+            :end_scene: :scene_4
+
+      :scene_4:
+        :events:
+          :back:
+            :end_scene: :scene_3
+          :forward:
+            :end_scene: :scene_5
+
+      :scene_5:
+        :character: :merchant_2
+        :events:
+          :left:
+            :end_scene: :scene_8
+          :right:
+            :end_scene: :scene_6
+          :back:
+            :end_scene: :scene_4
+
+      :scene_6:
+        :events:
+          :left:
+            :end_scene: :scene_5
+          :forward:
+            :end_scene: :scene_7
+
+      :scene_7:
+        :character: :old_lady
+        :events:
+          :back:
+            :end_scene: :scene_6
+
+      :scene_8:
+        :events:
+          :right:
+            :end_scene: :scene_5
+          :forward:
+            :end_scene: :scene_9
+
+      :scene_9:
+        :events:
+          :forward:
+            :end_scene: :scene_10
+            
+      :scene_10:
+        :events:
+          :forward:
+            :end_scene: :scene_1

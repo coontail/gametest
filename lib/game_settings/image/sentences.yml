@@ -1,0 +1,17 @@
+# Sentences images => thumbnails
+---
+:game_settings:
+  :image:
+    :sentences:
+      :defaults:
+        :x_position: 16
+        :y_position: 600
+        :width: 130
+        :height: 150
+
+      :merchant:
+        :image_path: "./data/thumbnails/merchant.png"
+      :merchant_2:
+        :image_path: "./data/characters/merchant2.png"
+      :self:
+        :image_path: "./data/characters/player.png"

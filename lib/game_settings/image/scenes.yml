@@ -1,0 +1,29 @@
+---
+:game_settings:
+  :image:
+    :scenes:
+      :defaults:
+        :x_position: 0
+        :y_position: 0
+        :width: 800
+        :height: 600
+      :scene_1:
+        :image_path: "./data/images/scenes/1.png"
+      :scene_2:
+        :image_path: "./data/images/scenes/2.png"
+      :scene_3:
+        :image_path: "./data/images/scenes/3.png"
+      :scene_4:
+        :image_path: "./data/images/scenes/4.png"
+      :scene_5:
+        :image_path: "./data/images/scenes/5.png"
+      :scene_6:
+        :image_path: "./data/images/scenes/6.png"
+      :scene_7:
+        :image_path: "./data/images/scenes/7.png"
+      :scene_8:
+        :image_path: "./data/images/scenes/8.png"
+      :scene_9:
+        :image_path: "./data/images/scenes/9.png"
+      :scene_10:
+        :image_path: "./data/images/scenes/10.png"

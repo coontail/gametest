@@ -1,0 +1,24 @@
+---
+:game_settings:
+  :hitbox:
+    :directions:
+      :left:
+        :x1_position: 0
+        :y1_position: 0
+        :x2_position: 80
+        :y2_position: 600
+      :right:
+        :x1_position: 720
+        :y1_position: 0
+        :x2_position: 800
+        :y2_position: 600
+      :forward:
+        :x1_position: 165
+        :y1_position: 165
+        :x2_position: 600
+        :y2_position: 400
+      :back:
+        :x1_position: 160
+        :y1_position: 485
+        :x2_position: 650
+        :y2_position: 580

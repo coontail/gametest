@@ -11,7 +11,7 @@ class GameObject::Choice < GameObject::Base
 
   def text
     super.tap do |game_text|
-      game_text.body = display_sentence.text.body
+      game_text.body = "-\t#{display_sentence.text.body}"
     end
   end
 
@@ -19,17 +19,7 @@ class GameObject::Choice < GameObject::Base
     @display_sentence ||= GameObject::Sentence.new(data[:display_sentence])
   end
 
-  ### Options ###
-
-  def text_options
-    { identifier_method: :position }
-  end
-
-  def hitbox_options
-    { identifier_method: :position }
-  end
-
-  def position
+  def dynamic_key
     data[:position]
   end
 

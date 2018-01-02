@@ -1,0 +1,29 @@
+---
+:game_settings:
+  :hitbox:
+    :menu_items:
+      :go_to:
+        :x1_position: 860
+        :y1_position: 630
+        :x2_position: 960
+        :y2_position: 650
+      :look_at:
+        :x1_position: 820
+        :y1_position: 670
+        :x2_position: 905
+        :y2_position: 690
+      :talk_to:
+        :x1_position: 930
+        :y1_position: 670
+        :x2_position: 990
+        :y2_position: 690
+      :take:
+        :x1_position: 820
+        :y1_position: 710
+        :x2_position: 900
+        :y2_position: 730
+      :give:
+        :x1_position: 930
+        :y1_position: 710
+        :x2_position: 1000
+        :y2_position: 730
