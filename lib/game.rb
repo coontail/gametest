@@ -12,7 +12,6 @@ class Game
 
     init_gameplay_variables
     init_menu_items
-    init_music
     
     update_scene
   end
@@ -35,11 +34,6 @@ class Game
     @selected_menu_item = @current_menu_items.find { |i| i.key == :go_to }
   end
 
-  def init_music
-    @background_music = GameMusic::Base.new
-    @background_music.play
-  end
-
   def update_scene
     update_music
     update_scene_image
@@ -50,7 +44,10 @@ class Game
   end
 
   def update_music
-    @background_music.update @current_scene.data[:music]
+    unless @current_scene.music.is_similar_to? @background_music
+      @background_music = @current_scene.music
+      @background_music.play
+    end
   end
 
   def update_scene_image

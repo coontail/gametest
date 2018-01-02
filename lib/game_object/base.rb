@@ -27,7 +27,11 @@ module GameObject
       @sound ||= GetSoundService.new(self, sound_options).call
     end
 
-    %w(data image hitbox text sound).each do |method_name|
+    def music
+      @music ||= GetMusicService.new(self, music_options).call
+    end
+
+    %w(data image hitbox text sound music).each do |method_name|
       define_method("#{method_name}_options") { {} }
     end
 

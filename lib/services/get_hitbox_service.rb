@@ -1,6 +1,6 @@
 class GetHitboxService < GetResourceService
 
-  representing_resource 'GameHitbox'
+  representing_resource :hitbox
 
   def call
     resource_class.new(hitbox_settings)

@@ -1,6 +1,6 @@
 class GetImageService < GetResourceService
 
-  representing_resource 'GameImage'
+  representing_resource :image
 
   def call
     resource_class.new(image_settings)

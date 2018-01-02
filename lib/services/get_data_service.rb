@@ -1,6 +1,7 @@
+# TODO : clean that
 class GetDataService < GetResourceService
 
-  representing_resource 'Data'
+  representing_resource :data
 
   def call
     get_data
@@ -9,11 +10,7 @@ class GetDataService < GetResourceService
   private
     
   def get_data
-    if Gameplay.respond_to?(storage_method)
-      Gameplay.send(storage_method)[@game_object.key] || {}
-    else
-      {}
-    end
+    $settings.get_deep(:game_settings, settings_resource_key, settings_class_key, @game_object.key) || {}
   end
 
 end

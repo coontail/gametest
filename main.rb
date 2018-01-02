@@ -6,6 +6,8 @@ require "taglib"
 require "byebug"
 require "require_all"
 require "awesome_print"
+require 'deep_merge'
+require "yaml"
 
 require_all "./lib/**/*.rb"
 
@@ -20,6 +22,13 @@ $screen = Screen.new(
   width: get(:width),
   height: get(:height)
 )
+
+$settings = {}
+
+Dir.glob("./**/**.yml").each do |setting_file_path|
+  setting_file = File.read(setting_file_path)
+  $settings.deep_merge! YAML.load(setting_file)
+end
 
 game = Game.new
 

@@ -1,9 +1,9 @@
 class GetSettingsService 
 
-  def initialize(storage_module, storage_method, key)
-    @storage_module = storage_module
-    @storage_method = storage_method
-    @key = key
+  def initialize(storage_resource_key, storage_class_key, object_key)
+    @storage_resource_key = storage_resource_key
+    @storage_class_key = storage_class_key
+    @object_key = object_key
   end
 
   def call
@@ -13,7 +13,7 @@ class GetSettingsService
   private
 
   def object_specific_settings
-    class_settings[@key] || {}
+    class_settings[@object_key] || {}
   end
 
   def default_settings
@@ -21,16 +21,7 @@ class GetSettingsService
   end
 
   def class_settings
-    @class_settings ||= call_storage_method || {}
-  end
-
-  def call_storage_method
-    _storage_method = @storage_method
-    _storage_module = Object.const_get(@storage_module) if Object.const_defined?(@storage_module)
-    
-    if _storage_module && _storage_module.respond_to?(_storage_method)
-      _storage_module.send(_storage_method) 
-    end
+    @class_settings ||= $settings.get_deep(:game_settings, @storage_resource_key, @storage_class_key) || {}
   end
 
 end

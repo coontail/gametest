@@ -1,9 +1,5 @@
 module Gameplay
 
-  #  Changer en "gameplay settings" maybe ?
-  
-  GAME_WIDTH = 1024.freeze
-
   def self.scenes
     {
       scene_1: {

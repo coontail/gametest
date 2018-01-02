@@ -1,6 +1,6 @@
 class GetSoundService < GetResourceService
 
-  representing_resource 'GameSound'
+  representing_resource :sound
 
   def call
     resource_class.new(settings)

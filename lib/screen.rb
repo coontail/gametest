@@ -1,5 +1,7 @@
 class Screen
 
+  DEFAULT_WIDTH = 1024.freeze
+  
   attr_reader :width
   attr_reader :height
   attr_reader :ratio
@@ -7,7 +9,7 @@ class Screen
   def initialize(width:, height:)
     @width = width
     @height = height
-    @ratio = @width / Gameplay::GAME_WIDTH.to_f
+    @ratio = @width / DEFAULT_WIDTH.to_f
   end
 
 end
