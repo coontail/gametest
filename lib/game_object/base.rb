@@ -1,3 +1,4 @@
+#TODO : documenter l'utilisation de dynamic_key
 module GameObject
   class Base
 

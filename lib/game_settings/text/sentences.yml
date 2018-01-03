@@ -3,8 +3,9 @@
   :text:
     :sentences:
       :defaults:
-        :x_position: 175
+        :x_position: 165
         :y_position: 615
+        :size: 20
 
 ###### Merchant ######
 
@@ -55,8 +56,8 @@
         :body: C'est le genre dont vous vous serviriez pour vous essuyer la bite, si vous etiez pauvre
 
       :audio_cassette_description_1:
-        :body: Il s'agit de votre cassette preferee
+        :body: Votre cassette preferee
       :audio_cassette_description_2:
-        :body: C'est une compilation de pres de mille-huit-cent-soixante-et-onze heures...
+        :body: Une compilation de pres de mille-huit-cent-soixante-et-onze heures...
       :audio_cassette_description_3:
         :body: ...de rires de personnes agees obeses americaines.

@@ -6,57 +6,57 @@
 #### MERCHANT ####
       
       :merchant_sentence_1:
-        :source: :merchant
+        :thumbnail: :merchant
       :merchant_sentence_2:
-        :source: :self
+        :thumbnail: :self
       :merchant_sentence_3:
-        :source: :merchant
+        :thumbnail: :merchant
       :merchant_sentence_4:
-        :source: :merchant
+        :thumbnail: :merchant
       :merchant_sentence_5:
-        :source: :self
+        :thumbnail: :self
       :merchant_sentence_6:
-        :source: :merchant
+        :thumbnail: :merchant
       :merchant_sentence_7:
-        :source: :merchant
+        :thumbnail: :merchant
       :merchant_sentence_8:
-        :source: :merchant
+        :thumbnail: :merchant
       :merchant_sentence_9:
-        :source: :merchant
+        :thumbnail: :merchant
         :given_item: :tissues
       :merchant_sentence_10:
-        :source: :self
+        :thumbnail: :self
       
       :merchant_sentence_with_choices_1:
-        :source: :merchant
+        :thumbnail: :merchant
         :choices:
         - :merchant_choice_1
         - :merchant_choice_2
         - :merchant_choice_3
 
       :merchant_choice_answer_1:
-        :source: :self
+        :thumbnail: :self
       :merchant_choice_answer_2:
-        :source: :self
+        :thumbnail: :self
       :merchant_choice_answer_3:
-        :source: :self
+        :thumbnail: :self
 
 ############## DESCRIPTIONS ##############
       :merchant_description:
-        :source: :self
+        :thumbnail: :self
 
       :old_lady_description:
-        :source: :self
+        :thumbnail: :self
 
       :tissues_description_1:
-        :source: :self
+        :thumbnail: :self
       :tissues_description_2:
-        :source: :self
+        :thumbnail: :self
 
       :audio_cassette_description_1:
-        :source: :self
+        :thumbnail: :self
       :audio_cassette_description_2:
-        :source: :self
+        :thumbnail: :self
       :audio_cassette_description_3:
-        :source: :self
+        :thumbnail: :self
 
