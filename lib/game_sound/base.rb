@@ -11,8 +11,8 @@ module GameSound
 
     def duration
       return 0 unless valid?
-      
-      @duration ||= TagLib::FileRef.open(@sound_path){ |fileref| fileref.audio_properties.length } * 1.5
+
+      GetSoundDurationService.new(@sound_path).call      
     end
 
     private

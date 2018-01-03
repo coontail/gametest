@@ -5,6 +5,9 @@
       :defaults:
         :x_position: 175
         :y_position: 615
+
+###### Merchant ######
+
       :merchant_sentence_1:
         :body: J'ai plein de marchandises a te proposer !
       :merchant_sentence_2:
@@ -19,8 +22,16 @@
         :body: Tout doux mec, je veux pas d'ennuis moi
       :merchant_sentence_7:
         :body: Salut l'ami !
+      :merchant_sentence_8:
+        :body: ''
+      :merchant_sentence_9:
+        :body: Comme tu as l'air nouveau dans le coin, je t'offre ce petit cadeau.
+      :merchant_sentence_10:
+        :body: Ah ? Tres aimable.
+
       :merchant_sentence_with_choices_1:
         :body: Salut l'etranger, que fais-tu ici ?
+
       :merchant_choice_answer_1:
         :body: Je ne sais pas trop, pour etre honnete...
       :merchant_choice_answer_2:
@@ -40,6 +51,12 @@
       
       :tissues_description_1:
         :body: Il s'agit d'un paquet de mouchoirs blancs de marque "Royale"
-      
       :tissues_description_2:
         :body: C'est le genre dont vous vous serviriez pour vous essuyer la bite, si vous etiez pauvre
+
+      :audio_cassette_description_1:
+        :body: Il s'agit de votre cassette preferee
+      :audio_cassette_description_2:
+        :body: C'est une compilation de pres de mille-huit-cent-soixante-et-onze heures...
+      :audio_cassette_description_3:
+        :body: ...de rires de personnes agees obeses americaines.

@@ -15,10 +15,10 @@ GEM
     parser (2.3.3.1)
       ast (~> 2.2)
     require_all (1.4.0)
+    ruby-audio (1.6.1)
     ruby2d (0.5.0)
       opal (~> 0.10)
     sourcemap (0.1.1)
-    taglib-ruby (0.7.1)
 
 PLATFORMS
   ruby
@@ -29,8 +29,8 @@ DEPENDENCIES
   deep_merge
   fastimage
   require_all
+  ruby-audio
   ruby2d
-  taglib-ruby
 
 BUNDLED WITH
    1.14.6

@@ -13,13 +13,19 @@
         :source: :merchant
       :merchant_sentence_4:
         :source: :merchant
-        :given_item: :tissues
       :merchant_sentence_5:
         :source: :self
       :merchant_sentence_6:
         :source: :merchant
       :merchant_sentence_7:
         :source: :merchant
+      :merchant_sentence_8:
+        :source: :merchant
+      :merchant_sentence_9:
+        :source: :merchant
+        :given_item: :tissues
+      :merchant_sentence_10:
+        :source: :self
       
       :merchant_sentence_with_choices_1:
         :source: :merchant
@@ -46,3 +52,11 @@
         :source: :self
       :tissues_description_2:
         :source: :self
+
+      :audio_cassette_description_1:
+        :source: :self
+      :audio_cassette_description_2:
+        :source: :self
+      :audio_cassette_description_3:
+        :source: :self
+

@@ -6,6 +6,7 @@ class Game
   attr_reader :current_scene
   attr_reader :current_choices
   attr_reader :inventory
+  attr_reader :selected_menu_item
 
   def initialize(options={})
     @frozen_until = Time.now
@@ -28,6 +29,9 @@ class Game
 
   def init_inventory
     @inventory = GameObject::Inventory.new
+
+    default_item_keys = [:audio_cassette]
+    default_item_keys.each { |item_key| @inventory.add item_key }
   end
 
   def init_menu_items
@@ -46,6 +50,22 @@ class Game
     update_overlay
     update_menu_items
     update_inventory_items
+
+    # x = {
+    #   update_music: bench(update_music),
+    #   update_scene_image: bench(update_scene_image),
+    #   update_characters: bench(update_characters),
+    #   draw_direction_arrows: bench(draw_direction_arrows),
+    #   update_overlay: bench(update_overlay),
+    #   update_menu_items: bench(update_menu_items),
+    #   update_inventory_items: bench(update_inventory_items),
+    # }
+
+    # ap x
+  end
+
+  def bench(x)
+    Benchmark.measure{ x }.real
   end
 
   def update_music
@@ -90,6 +110,16 @@ class Game
   end
 
   def get_event
+    # x = {
+    #   get_inventory_event: bench(get_inventory_event),
+    #   get_menu_event: bench(get_menu_event),
+    #   get_choice_event: bench(get_choice_event),
+    #   get_map_event: bench(get_map_event),
+    #   get_character_event: bench(get_character_event)
+    # }
+
+    # ap x
+
     get_inventory_event ||
     get_menu_event || 
     get_choice_event ||
@@ -191,6 +221,10 @@ class Game
       sentence.text.write
       sentence.sound.play
       freeze_game_for(sentence.sound.duration)
+
+      if sentence.given_item
+        @inventory.add sentence.given_item
+      end
 
       if sentence.choices.any?
         @current_sentences = []

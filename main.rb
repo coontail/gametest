@@ -2,11 +2,12 @@ require "rubygems"
 require "bundler/setup"
 require "ruby2d"
 require "fastimage"
-require "taglib"
+require "ruby-audio"
 require "byebug"
 require "require_all"
 require "awesome_print"
 require 'deep_merge'
+require "benchmark"
 require "yaml"
 
 require_all "./lib/**/*.rb"
@@ -34,18 +35,27 @@ game = Game.new
 
 update do
 
-  # path = "./data/images/sprites/up_arrow.png"
-  # @cursor.remove if @cursor
-  # x = get(:mouse_x)
-  # y = get(:mouse_y)
-  # @cursor = game.draw_image(x, y, path)
+  if game.selected_menu_item
+    path = case game.selected_menu_item.key
+           when :go_to then  './data/images/assets/go_to.png'
+           when :look_at then './data/images/assets/eye.png'
+           when :talk_to then './data/images/assets/mouth.png'
+           when :take then './data/images/assets/take.png'
+           when :give then './data/images/assets/give.png'
+           end
+
+    @cursor.remove if @cursor
+    @cursor = Image.new(
+      x: get(:mouse_x) - 20, 
+      y: get(:mouse_y) - 20, 
+      path: path,
+      color: 'red'
+    )
+
+    @cursor.width, @cursor.height = 30, 30
+  end
 
   if Time.now >= game.frozen_until && game.current_sentences.any?
-
-    if game.current_sentences.any? && game.current_sentences.first.given_item
-      game.inventory.add game.current_sentences.first.given_item
-    end
-
     game.update_scene
     game.update_sentences if game.current_sentences.any?
   end
@@ -53,7 +63,6 @@ update do
 end
 
 on :mouse_down do |event|
-  puts "MOUSE DOWN"
   if Time.now >= game.frozen_until
 
     game.mouse_x = event.x

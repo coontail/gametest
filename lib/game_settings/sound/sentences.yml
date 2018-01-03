@@ -2,6 +2,9 @@
 :game_settings:
   :sound:
     :sentences:
+
+###### Merchant ######
+
       :merchant_sentence_1:
         :sound_path: "./data/dialogues/merchant/sentences/1.ogg"
       :merchant_sentence_2:
@@ -16,8 +19,16 @@
         :sound_path: "./data/dialogues/merchant/sentences/6.ogg"
       :merchant_sentence_7:
         :sound_path: "./data/dialogues/merchant/sentences/7.ogg"
+      :merchant_sentence_8:
+        :sound_path: "./data/dialogues/merchant/sentences/8.ogg"
+      :merchant_sentence_9:
+        :sound_path: "./data/dialogues/merchant/sentences/9.ogg"
+      :merchant_sentence_10:
+        :sound_path: "./data/dialogues/merchant/sentences/10.ogg"
+
       :merchant_sentence_with_choices_1:
         :sound_path: "./data/dialogues/merchant/default.ogg"
+
       :merchant_choice_answer_1:
         :sound_path: "./data/dialogues/merchant/choices/1_1.ogg"
       :merchant_choice_answer_2:
@@ -39,4 +50,11 @@
       :tissues_description_1:
         :sound_path: "./data/descriptions/tissues_1.ogg"
       :tissues_description_2:
-        :sound_path: "./data/descriptions/tissues_2.ogg"      
+        :sound_path: "./data/descriptions/tissues_2.ogg"
+
+      :audio_cassette_description_1:
+        :sound_path: "./data/descriptions/audio_cassette_1.ogg"
+      :audio_cassette_description_2:
+        :sound_path: "./data/descriptions/audio_cassette_2.ogg"
+      :audio_cassette_description_3:
+        :sound_path: "./data/descriptions/audio_cassette_3.ogg"

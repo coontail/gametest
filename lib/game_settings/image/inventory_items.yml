@@ -20,3 +20,6 @@
 
       :tissues:
         :image_path: "./data/items/tissues.png"
+
+      :audio_cassette:
+        :image_path: "./data/items/audio_cassette.png"
