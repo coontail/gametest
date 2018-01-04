@@ -26,3 +26,18 @@
         :display_sentence: :merchant_choice_answer_3
         :sentences:
         - :merchant_sentence_7
+
+      :merchant_choice_4:
+        :position: :choice_4
+        :display_sentence: :merchant_choice_answer_4
+        :sentences:
+        - :merchant_sentence_11
+        - :merchant_sentence_12
+        - :merchant_sentence_13
+        - :merchant_sentence_14
+        - :merchant_sentence_15
+        - :merchant_sentence_16
+        - :merchant_sentence_17
+        - :merchant_sentence_18
+        - :merchant_sentence_19
+        - :merchant_sentence_20

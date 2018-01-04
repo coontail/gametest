@@ -25,6 +25,26 @@
         :sound_path: "./data/dialogues/merchant/sentences/9.ogg"
       :merchant_sentence_10:
         :sound_path: "./data/dialogues/merchant/sentences/10.ogg"
+      :merchant_sentence_11:
+        :sound_path: "./data/dialogues/merchant/sentences/11.ogg"
+      :merchant_sentence_12:
+        :sound_path: "./data/dialogues/merchant/sentences/12.ogg"
+      :merchant_sentence_13:
+        :sound_path: "./data/dialogues/merchant/sentences/13.ogg"
+      :merchant_sentence_14:
+        :sound_path: "./data/dialogues/merchant/sentences/14.ogg"
+      :merchant_sentence_15:
+        :sound_path: "./data/dialogues/merchant/sentences/15.ogg"
+      :merchant_sentence_16:
+        :sound_path: "./data/dialogues/merchant/sentences/16.ogg"
+      :merchant_sentence_17:
+        :sound_path: "./data/dialogues/merchant/sentences/17.ogg"
+      :merchant_sentence_18:
+        :sound_path: "./data/dialogues/merchant/sentences/18.ogg"
+      :merchant_sentence_19:
+        :sound_path: "./data/dialogues/merchant/sentences/19.ogg"
+      :merchant_sentence_20:
+        :sound_path: "./data/dialogues/merchant/sentences/20.ogg"
 
       :merchant_sentence_with_choices_1:
         :sound_path: "./data/dialogues/merchant/default.ogg"
@@ -35,6 +55,8 @@
         :sound_path: "./data/dialogues/merchant/choices/1_2.ogg"
       :merchant_choice_answer_3:
         :sound_path: "./data/dialogues/merchant/choices/1_3.ogg"
+      :merchant_choice_answer_4:
+        :sound_path: "./data/dialogues/merchant/choices/1_4.ogg"
 
 ############## DESCRIPTIONS #######################
 

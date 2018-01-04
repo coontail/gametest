@@ -29,6 +29,26 @@
         :body: Comme tu as l'air nouveau dans le coin, je t'offre ce petit cadeau.
       :merchant_sentence_10:
         :body: Ah ? Tres aimable.
+      :merchant_sentence_11:
+        :body: Euuuuuh...
+      :merchant_sentence_12:
+        :body: ...Ne prefererais-tu pas la liste complete des fruits comestibles ?
+      :merchant_sentence_13:
+        :body: L'abricot, l'airelle, l'alkekenge, l'amande, l'armelanche...
+      :merchant_sentence_14:
+        :body: Ca a l'air passionnant.
+      :merchant_sentence_15:
+        :body: Pourriez-vous aller un peu plus vite svp ?
+      :merchant_sentence_16:
+        :body: ...La fraise, la framboise, la griotte...
+      :merchant_sentence_17:
+        :body: ...boloalclaeo...flallfla...
+      :merchant_sentence_18:
+        :body: ....okudo...okudo...okudo...
+      :merchant_sentence_19:
+        :body: ....................
+      :merchant_sentence_20:
+        :body: ...Et la courge.
 
       :merchant_sentence_with_choices_1:
         :body: Salut l'etranger, que fais-tu ici ?
@@ -39,7 +59,8 @@
         :body: En quoi ca vous regarde ?
       :merchant_choice_answer_3:
         :body: Au revoir
-
+      :merchant_choice_answer_4:
+        :body: Sauriez-vous me conter les mysteres de Reims ?
 
 ############ DESCRIPTIONS ##############
       

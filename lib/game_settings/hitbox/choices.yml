@@ -8,11 +8,14 @@
         
       :dynamics:
         :choice_1:
-          :y1_position: 665
-          :y2_position: 685
+          :y1_position: 645
+          :y2_position: 665
         :choice_2:
-          :y1_position: 690
-          :y2_position: 720
+          :y1_position: 670
+          :y2_position: 700
         :choice_3:
-          :y1_position: 715
+          :y1_position: 695
+          :y2_position: 720
+        :choice_4:
+          :y1_position: 720
           :y2_position: 740

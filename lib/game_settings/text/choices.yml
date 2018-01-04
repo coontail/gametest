@@ -4,11 +4,14 @@
     :choices:
       :defaults:
         :x_position: 170
+        :size: 18
         
       :dynamics:
         :choice_1:
-          :y_position: 665
+          :y_position: 645
         :choice_2:
-          :y_position: 690
+          :y_position: 670
         :choice_3:
-          :y_position: 715
+          :y_position: 695
+        :choice_4:
+          :y_position: 720

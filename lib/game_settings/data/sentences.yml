@@ -25,7 +25,27 @@
         :thumbnail: :merchant
         :given_item: :tissues
       :merchant_sentence_10:
+        :thumbnail: :merchant
+      :merchant_sentence_11:
+        :thumbnail: :merchant
+      :merchant_sentence_12:
+        :thumbnail: :merchant
+      :merchant_sentence_13:
+        :thumbnail: :merchant
+      :merchant_sentence_14:
         :thumbnail: :self
+      :merchant_sentence_15:
+        :thumbnail: :self
+      :merchant_sentence_16:
+        :thumbnail: :merchant
+      :merchant_sentence_17:
+        :thumbnail: :merchant
+      :merchant_sentence_18:
+        :thumbnail: :merchant
+      :merchant_sentence_19:
+        :thumbnail: :merchant
+      :merchant_sentence_20:
+        :thumbnail: :merchant
       
       :merchant_sentence_with_choices_1:
         :thumbnail: :merchant
@@ -33,12 +53,15 @@
         - :merchant_choice_1
         - :merchant_choice_2
         - :merchant_choice_3
+        - :merchant_choice_4
 
       :merchant_choice_answer_1:
         :thumbnail: :self
       :merchant_choice_answer_2:
         :thumbnail: :self
       :merchant_choice_answer_3:
+        :thumbnail: :self
+      :merchant_choice_answer_4:
         :thumbnail: :self
 
 ############## DESCRIPTIONS ##############
