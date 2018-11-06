@@ -1,9 +1,9 @@
-module GameImage
+module Game::Image
   class Base
     include Scalable
 
     attr_reader :x_position, :y_position, :width, :height, :full_screen, :path
-    
+
     def initialize(settings={})
       @path        = settings[:image_path]
       @x_position  = settings[:x_position]
@@ -50,6 +50,5 @@ module GameImage
     def set_image_dimensions(new_width, new_height)
       @image.width, @image.height = new_width, new_height
     end
-
   end
 end

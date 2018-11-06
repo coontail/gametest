@@ -1,9 +1,9 @@
-class GameObject::Choice < GameObject::Base
+class Game::Object::Choice < Game::Object::Base
   # By far the worst game object, needs cleaner version asap, config is too obscure, kinda
 
   def sentences
     _sentences = (data[:sentences] || []).map do |sentence_key|
-      GameObject::Sentence.new(sentence_key)
+      Game::Object::Sentence.new(sentence_key)
     end
 
     _sentences.unshift display_sentence
@@ -15,8 +15,8 @@ class GameObject::Choice < GameObject::Base
     end
   end
 
-  def display_sentence 
-    @display_sentence ||= GameObject::Sentence.new(data[:display_sentence])
+  def display_sentence
+    @display_sentence ||= Game::Object::Sentence.new(data[:display_sentence])
   end
 
   def dynamic_key

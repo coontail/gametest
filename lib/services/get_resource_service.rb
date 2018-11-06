@@ -1,14 +1,14 @@
 class GetResourceService
 
   include Representable
-  
+
   def initialize(game_object, options={})
     @game_object = game_object
     @options = options
   end
 
   private
-  
+
   ########### Identifiers #############
 
   def identifier_method
@@ -32,7 +32,7 @@ class GetResourceService
   ########### Class names ###########
 
   def resource_class_name
-    @options[:resource_class_name] || "Game#{represented_resource.capitalize}"
+    @options[:resource_class_name] || "Game::#{represented_resource.capitalize}"
   end
 
   def game_object_class_name
@@ -63,9 +63,9 @@ class GetResourceService
 
   def settings
     @settings ||= GetSettingsService.new(
-      resource_key: resource_key, 
-      class_key:    class_key, 
-      dynamic_key:  dynamic_key, 
+      resource_key: resource_key,
+      class_key:    class_key,
+      dynamic_key:  dynamic_key,
       object_key:   object_key
     ).call
   end

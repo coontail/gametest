@@ -1,4 +1,4 @@
-module GameText
+module Game::Text
   class Base
     include Scalable
 
@@ -31,10 +31,10 @@ module GameText
 
     def settings
       {
-        x: adjusted_x_position, 
-        y: adjusted_y_position, 
-        text: body, 
-        size: size, 
+        x: adjusted_x_position,
+        y: adjusted_y_position,
+        text: body,
+        size: size,
         font: font,
         color: color
       }

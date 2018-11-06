@@ -1,4 +1,4 @@
-module GameSound
+module Game::Sound
   class Base
 
     def initialize(settings={})
@@ -12,7 +12,7 @@ module GameSound
     def duration
       return 0 unless valid?
 
-      GetSoundDurationService.new(@sound_path).call      
+      GetSoundDurationService.new(@sound_path).call
     end
 
     private

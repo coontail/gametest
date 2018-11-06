@@ -1,4 +1,4 @@
-module GameMusic
+module Game::Music
   class Base
 
     attr_reader :path

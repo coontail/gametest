@@ -10,7 +10,7 @@ require 'deep_merge'
 require "benchmark"
 require "yaml"
 
-require_all "./lib/**/*.rb"
+require_all "./lib/**/**/*.rb"
 
 # Screen sizes cheatsheet
 # 840x630 = cool
@@ -46,8 +46,8 @@ update do
 
     @cursor.remove if @cursor
     @cursor = Image.new(
-      x: get(:mouse_x) - 20, 
-      y: get(:mouse_y) - 20, 
+      x: get(:mouse_x) - 20,
+      y: get(:mouse_y) - 20,
       path: path,
       color: 'red'
     )

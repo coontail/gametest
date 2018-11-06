@@ -1,8 +1,8 @@
-class GameObject::Sentence < GameObject::Base
+class Game::Object::Sentence < Game::Object::Base
 
   def choices
     (data[:choices] || []).map do |choice_key|
-      GameObject::Choice.new(choice_key)
+      Game::Object::Choice.new(choice_key)
     end
   end
 

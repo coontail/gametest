@@ -1,5 +1,5 @@
-class GameObject::Inventory
-  
+class Game::Object::Inventory
+
   attr_reader :items
 
   def initialize
@@ -24,7 +24,7 @@ class GameObject::Inventory
   def update_items
     inventory_items = @item_keys.map.with_index(1) do |key, i|
       if position = position_for(i)
-        GameObject::InventoryItem.new(key, dynamic_key: position)
+        Game::Object::InventoryItem.new(key, dynamic_key: position)
       end
     end
 

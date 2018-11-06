@@ -1,4 +1,4 @@
-class GameObject::Scene < GameObject::Base
+class Game::Object::Scene < Game::Object::Base
 
   def events
     data[:events] || {}
@@ -6,13 +6,13 @@ class GameObject::Scene < GameObject::Base
 
   def character
     if (character_key = data[:character])
-      GameObject::Character.new(character_key)
+      Game::Object::Character.new(character_key)
     end
   end
 
   def overlay
     overlay_key = data[:overlay] || :main
-    GameObject::Overlay.new(overlay_key)
+    Game::Object::Overlay.new(overlay_key)
   end
 
   def next_scene_for(event_key)

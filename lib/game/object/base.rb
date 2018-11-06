@@ -1,5 +1,5 @@
 #TODO : documenter l'utilisation de dynamic_key
-module GameObject
+module Game::Object
   class Base
 
     attr_reader :key

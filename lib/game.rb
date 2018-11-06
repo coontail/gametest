@@ -14,7 +14,7 @@ class Game
     init_gameplay_variables
     init_menu_items
     init_inventory
-    
+
     update_scene
   end
 
@@ -22,13 +22,13 @@ class Game
     @current_character = nil
     @current_choices = []
     @current_sentences = []
-    @current_scene = GameObject::Scene.new(:scene_1)
+    @current_scene = Game::Object::Scene.new(:scene_1)
 
     @available_directions = []
   end
 
   def init_inventory
-    @inventory = GameObject::Inventory.new
+    @inventory = Game::Object::Inventory.new
 
     default_item_keys = [:audio_cassette]
     default_item_keys.each { |item_key| @inventory.add item_key }
@@ -36,7 +36,7 @@ class Game
 
   def init_menu_items
     @current_menu_items = [:go_to, :look_at, :talk_to, :take, :give].map do |key|
-      GameObject::MenuItem.new(key)
+      Game::Object::MenuItem.new(key)
     end
 
     @selected_menu_item = @current_menu_items.find { |i| i.key == :go_to }
@@ -91,7 +91,7 @@ class Game
   def update_menu_items
     @current_menu_items.each do |menu_item|
       item_color = (menu_item == @selected_menu_item) ? 'black' : 'white'
-      
+
       menu_item.text.color = item_color
       menu_item.text.write
     end
@@ -102,8 +102,8 @@ class Game
   end
 
   def draw_direction_arrows
-    @available_directions = @current_scene.events.keys.map do |key| 
-      GameObject::Direction.new(key)
+    @available_directions = @current_scene.events.keys.map do |key|
+      Game::Object::Direction.new(key)
     end
 
     @available_directions.each { |direction| direction.image.draw }
@@ -121,14 +121,14 @@ class Game
     # ap x
 
     get_inventory_event ||
-    get_menu_event || 
+    get_menu_event ||
     get_choice_event ||
-    get_map_event || 
+    get_map_event ||
     get_character_event
   end
 
   def get_map_event
-    concerned_directions = @available_directions.select do |direction| 
+    concerned_directions = @available_directions.select do |direction|
       @current_scene.events.keys.include?(direction.key)
     end
 
@@ -165,7 +165,7 @@ class Game
     if @current_choices
       touched_choice = @current_choices.find do |choice|
         choice.hitbox.is_touched_by?(@mouse_x, @mouse_y)
-      end    
+      end
 
       if touched_choice
         { type: :choice, object: touched_choice }
@@ -202,7 +202,7 @@ class Game
         play_sfx(:clicking)
       end
 
-      
+
     when [:character, :talk_to]
       update_dialogues
 
@@ -213,7 +213,7 @@ class Game
     end
   end
 
-  ## Update sentences est géré par le main because gestion du timing etc etc 
+  ## Update sentences est géré par le main because gestion du timing etc etc
   ## Renommer classe et sentences par dialogue_sentences pour éviter la confusion?
   def update_sentences
     @current_sentences[0].tap do |sentence|
@@ -240,7 +240,7 @@ class Game
   def update_dialogues
     if @current_character
       @current_sentences = @current_character.dialogue.sentences
-      play_sfx(:cough) unless @current_sentences.any?        
+      play_sfx(:cough) unless @current_sentences.any?
     end
   end
 
@@ -249,7 +249,7 @@ class Game
   end
 
   def play_sfx(key)
-    sfx = GameSound::Sfx.new(key)
+    sfx = Game::Sound::Sfx.new(key)
     sfx.play && freeze_game_for(sfx.duration)
   end
 

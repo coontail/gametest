@@ -1,9 +1,9 @@
-class GameSound::Sfx < GameSound::Base
+class Game::Sound::Sfx < Game::Sound::Base
 
   def initialize(key)
     @sound_path = game_sfxs[key][:sound_path]
   end
-  
+
   private
 
   # À bouger....

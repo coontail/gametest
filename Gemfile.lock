@@ -4,9 +4,15 @@ GEM
     ast (2.3.0)
     awesome_print (1.8.0)
     byebug (9.1.0)
+    concurrent-ruby (1.1.1)
     deep_merge (1.2.1)
     fastimage (2.1.0)
     hike (1.2.3)
+    i18n (1.1.1)
+      concurrent-ruby (~> 1.0)
+    json (2.1.0)
+    numbers_and_words (0.11.5)
+      i18n
     opal (0.11.0)
       ast (>= 2.3.0)
       hike (~> 1.2)
@@ -19,6 +25,10 @@ GEM
     ruby2d (0.5.0)
       opal (~> 0.10)
     sourcemap (0.1.1)
+    voxbi (1.0.6)
+      json
+      numbers_and_words
+      require_all
 
 PLATFORMS
   ruby
@@ -31,6 +41,7 @@ DEPENDENCIES
   require_all
   ruby-audio
   ruby2d
+  voxbi
 
 BUNDLED WITH
-   1.14.6
+   1.16.5

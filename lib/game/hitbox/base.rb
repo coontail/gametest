@@ -1,9 +1,9 @@
-module GameHitbox
+module Game::Hitbox
   class Base
     include Scalable
 
     attr_reader :x1_position, :x2_position, :y1_position, :y2_position
-    
+
     def initialize(settings={})
       @x1_position = settings[:x1_position]
       @x2_position = settings[:x2_position]
@@ -17,7 +17,7 @@ module GameHitbox
       pointer_x >= adjust_to_ratio(x1_position) &&
       pointer_x <= adjust_to_ratio(x2_position) &&
       pointer_y >= adjust_to_ratio(y1_position) &&
-      pointer_y <= adjust_to_ratio(y2_position) 
+      pointer_y <= adjust_to_ratio(y2_position)
     end
 
     private
@@ -25,6 +25,5 @@ module GameHitbox
     def valid?
       [x1_position, x2_position, y1_position, y2_position].all?
     end
-
   end
 end
